@@ -9,7 +9,7 @@
 /*
   Array di domande.
   Ogni question è un object con:
-   - question: testo della domanda
+   - question: testo della question
    - correct_answer: la risposta corretta (string)
    - incorrect_answers: array di risposte sbagliate (string[])
 */
@@ -80,9 +80,9 @@ const QUESTIONS = [
 
 /* Costanti del quiz */
 const TOTAL_QUESTIONS = QUESTIONS.length;
-const PASS_THRESHOLD = 60;     // percentuale minima per "Promosso"
-const FEEDBACK_DELAY = 1500;   // ms di attesa dopo risposta prima di avanzare
-const TIMER_DURATION = 20;     // secondi per ogni domanda
+const PASS_THRESHOLD = 60; // percentuale minima per "Promosso"
+const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
+const TIMER_DURATION = 20; // secondi per ogni question
 
 /* Stato globale */
 let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
@@ -90,73 +90,106 @@ let currentQuestion = 0;
 let score = 0;
 let timerId = null;
 
-const appcontainer = document.querySelector('#app')
-
-function isWelcome(){
-    let title = document.createElement('h2')
-    title.textContent = 'Benvenuto al tuo esame'
-    let paragraph = document.createElement('p')
-    paragraph.textContent = `una serie di 10 domande sul mondo dell'informatica e del web. per ogni domanda hai 20 secondi per rispondere`
-    let lista = document.createElement('ul')
-    let item = document.createElement('li')
-    let startButton = document.createElement('button')
-    startButton.textContent ='inizia'
-    startButton.addEventListener('click',()=>{
-      console.log(currentScreen,"stato prima")
-      currentScreen = 'quiz'
-      console.log(currentScreen,"stato")
-      render()
-    })
-    item.textContent = 'item 1'
-    appcontainer.appendChild(title)
-    appcontainer.appendChild(paragraph)
-    appcontainer.appendChild(lista)
-    appcontainer.appendChild(startButton)
-    lista.appendChild(item)
-
-    
-}
-
-function isQuiz(){
-     console.log('sono qui in quiz')
-    appcontainer.textContent = ''
-}
-
-function IsResult(){
-      appcontainer.textContent = ''
-      let titoloSection = document.createElement('h2')
-      titoloSection.textContent = 'result'
-      appcontainer.appendChild(titoloSection)
-
-}
-
-function render(){
-  switch (currentScreen) {
-    case 'welcome':
-      isWelcome()
-      break;
-    case 'quiz':
-      isQuiz()
-      break
-    case 'results':
-      IsResult()
-      break 
-  }
-}
-
-render()
-
-console.log(currentScreen)
+const appcontainer = document.querySelector("#app");
+const givenAnswers = [];
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
    - renderWelcome() per la schermata iniziale con button Inizia
-   - renderQuiz() per la domanda corrente con i button risposta + counter + timer
+   - renderQuiz() per la question corrente con i button risposta + counter + timer
    - renderResults() per la schermata finale con percentuale + barre + verdetto
    - startTimer() / stopTimer() per il countdown
    - handleAnswer(button, answer) per il click su una risposta
    - handleTimeUp() per il tempo scaduto
-   - advance() per andare alla domanda successiva o ai risultati
+   - advance() per andare alla question successiva o ai risultati
 */
 
+function isWelcome() {
+  let title = document.createElement("h2");
+  title.textContent = "Benvenuto al tuo esame";
+  let paragraph = document.createElement("p");
+  paragraph.textContent = `una serie di 10 domande sul mondo dell'informatica e del web. per ogni question hai 20 secondi per rispondere`;
+  let lista = document.createElement("ul");
+  let item = document.createElement("li");
+  let startButton = document.createElement("button");
+  startButton.textContent = "inizia";
+  startButton.addEventListener("click", () => {
+    console.log(currentScreen, "stato prima");
+    currentScreen = "quiz";
+    console.log(currentScreen, "stato");
+    render();
+  });
+  item.textContent = "item 1";
+  appcontainer.appendChild(title);
+  appcontainer.appendChild(paragraph);
+  appcontainer.appendChild(lista);
+  appcontainer.appendChild(startButton);
+  lista.appendChild(item);
+}
 
+function randomLenght(a) {
+  return Math.floor(Math.random() * a.length); //return un intero a caso da 0 a lenght
+}
+
+function isQuiz(a = QUESTIONS) {
+  //AGGIUNGERE UN CHECK quando QUESTIONS è vuoto per cambaire lo stato
+  console.log("sono qui in quiz");
+  appcontainer.textContent = "";
+  let i = randomLenght(a);
+  const [q] = a.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
+  const { question: question, correct_answer: y, incorrect_answers: z } = q; //destrutturo l'oggetto per richiamare le variabili
+
+  let h2 = document.createElement("h2");
+  let ul = document.createElement("ul");
+  let allAnswers = [y, ...z];
+
+  h2.textContent = question;
+  appcontainer.appendChild(h2);
+  appcontainer.appendChild(ul);
+
+  while (allAnswers.length > 0) {
+    const index = randomLenght(allAnswers); // 0 … length - 1
+    const [answer] = allAnswers.splice(index, 1); // la salvo come variabile e la rimuovo dall'array per non richiamarla
+
+    const li = document.createElement("li");
+    const option = document.createElement("button");
+    option.textContent = answer;
+    li.appendChild(option);
+    ul.appendChild(li);
+    option.addEventListener("click", (event) => {
+      event.preventDefault();
+      givenAnswers.push({ question: question, answer: answer });
+      if (QUESTIONS.length === 0) {
+        currentScreen = "results";
+        render();
+      } 
+      else {
+        render();
+      }
+      console.log(givenAnswers);
+    });
+  }
+}
+
+function IsResult() {
+  appcontainer.textContent = "";
+  let titoloSection = document.createElement("h2");
+  titoloSection.textContent = "result";
+  appcontainer.appendChild(titoloSection);
+}
+
+function render() {
+  switch (currentScreen) {
+    case "welcome":
+      isWelcome();
+      break;
+    case "quiz":
+      isQuiz();
+      break;
+    case "results":
+      IsResult();
+      break;
+  }
+}
+
+render();

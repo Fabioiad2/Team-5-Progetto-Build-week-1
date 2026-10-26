@@ -59,12 +59,63 @@ Viene visualizzato anche un grafico a torta.
 
 Button "Restart" con logica per il reset. (window.reload()) per essere sicuri l'app ripartirà dallo stato iniziale
 
-Sotto io button verra visualizzata la ul di risposte date dall'utente.
+Sotto il button verra visualizzata la ul di risposte date dall'utente.
 Verrano mostrate tutte le domande estratte durante il quiz con le relative risposte selezionate e il risultato corretto/errata. 
 
+Albero del dom:
+### WELCOME
+<main id="app">
+  <div class="welcome">
+    <h2>
+    <p>
+    <ul>
+      <li></li>
+      </ul>
+    <button start>
+  </div>
+</main>
 
+### QUIZ
+<main id="app">
+  <div class="quiz">
+    <div class="counters">
+      <div class="numberQ">
+        <p></p>
+      </div>
+      <div class="timer">
+        <span></span>
+      </div>
+    </div>
+   <div class="questionnaire"> 
+    <h2>
+     <p></p>
+     <ul>
+       <li>
+       </li>
+     </ul>
+    </div>
+  </div>
+</main>
 
+### RESULT
+<main id="app">
+  <div class="result">
+    <h2></h2>
+    <p></p>
+    <span></span>
+    <div class="passed" class="failed">
+      <p></p>
+    </div>
+    <div id="graph">
+    </div>
+    <button restart>
+  </div>
+</main>
 
-
+/* Aggiungi qui le tue regole CSS per:
+   - .welcome (titolo, intro, button Inizia)
+   - .quiz (counter, timer, domanda, button risposta, classi correct/wrong)
+   - .results (percentuale, barre orizzontali, verdetto promosso/bocciato, restart)
+*/
 
 

@@ -66,8 +66,8 @@ Albero del dom:
 ### WELCOME
 <main id="app">
   <div class="welcome">
-    <h2>
-    <p>
+    <h2 class="title">
+    <p class="intro"></p>
     <ul>
       <li></li>
       </ul>
@@ -79,7 +79,7 @@ Albero del dom:
 <main id="app">
   <div class="quiz">
     <div class="counters">
-      <div class="numberQ">
+      <div class="counter">
         <p></p>
       </div>
       <div class="timer">
@@ -87,10 +87,10 @@ Albero del dom:
       </div>
     </div>
    <div class="questionnaire"> 
-    <h2>
-     <p></p>
-     <ul>
-       <li>
+    <h2 class="question">
+     <ul class="answers">
+       <li class="correct wrong">
+       <button></button>
        </li>
      </ul>
     </div>
@@ -99,9 +99,9 @@ Albero del dom:
 
 ### RESULT
 <main id="app">
-  <div class="result">
-    <h2></h2>
-    <p></p>
+  <div class="results">
+    <h2 class="">Risultati</h2>
+    <p>Hai completato il quiz.</p>
     <span></span>
     <div class="passed" class="failed">
       <p></p>
@@ -113,8 +113,6 @@ Albero del dom:
 </main>
 
 /* Aggiungi qui le tue regole CSS per:
-   - .welcome (titolo, intro, button Inizia)
-   - .quiz (counter, timer, domanda, button risposta, classi correct/wrong)
    - .results (percentuale, barre orizzontali, verdetto promosso/bocciato, restart)
 */
 

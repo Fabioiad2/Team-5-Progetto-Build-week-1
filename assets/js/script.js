@@ -138,13 +138,15 @@ function render(){
     case 'quiz':
       isQuiz()
       break
-    case 'result':
+    case 'results':
       IsResult()
-      break
+      break 
   }
 }
 
 render()
+
+console.log(currentScreen)
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen

@@ -108,35 +108,43 @@ function isWelcome() {
   let title = document.createElement("h2");
   title.textContent = "Benvenuto al tuo esame";
   let paragraph = document.createElement("p");
-  paragraph.textContent = `una serie di 10 domande sul mondo dell'informatica e del web. per ogni question hai 20 secondi per rispondere`;
-  let lista = document.createElement("ul");
+  paragraph.textContent = `Una serie di 10 domande sul mondo dell'informatica e del web. Per ogni domanda hai 20 secondi di tempo per rispondere.`;
+  let list = document.createElement("ul");
   let item = document.createElement("li");
   let startButton = document.createElement("button");
-  startButton.textContent = "inizia";
+  startButton.textContent = "Inizia";
   startButton.addEventListener("click", () => {
     console.log(currentScreen, "stato prima");
     currentScreen = "quiz";
     console.log(currentScreen, "stato");
+    timer();
     render();
   });
   item.textContent = "item 1";
   appcontainer.appendChild(title);
   appcontainer.appendChild(paragraph);
-  appcontainer.appendChild(lista);
+  appcontainer.appendChild(list);
   appcontainer.appendChild(startButton);
-  lista.appendChild(item);
+  list.appendChild(item);
 }
 
-function randomLenght(a) {
+function randomLength(a) {
   return Math.floor(Math.random() * a.length); //return un intero a caso da 0 a lenght
 }
+let timer20;
 
-function isQuiz(a = QUESTIONS) {
-  //AGGIUNGERE UN CHECK quando QUESTIONS è vuoto per cambaire lo stato
-  console.log("sono qui in quiz");
+function isQuiz(param = QUESTIONS) {
   appcontainer.textContent = "";
-  let i = randomLenght(a);
-  const [q] = a.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
+
+  //AGGIUNGERE UN CHECK quando QUESTIONS è vuoto per cambiare lo stato
+  console.log("sono qui in quiz");
+
+  timer20 = document.createElement("span");
+  timer20.textContent = 20;
+  appcontainer.appendChild(timer20);
+
+  let i = randomLength(param);
+  const [q] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
   const { question: question, correct_answer: y, incorrect_answers: z } = q; //destrutturo l'oggetto per richiamare le variabili
 
   let h2 = document.createElement("h2");
@@ -148,7 +156,7 @@ function isQuiz(a = QUESTIONS) {
   appcontainer.appendChild(ul);
 
   while (allAnswers.length > 0) {
-    const index = randomLenght(allAnswers); // 0 … length - 1
+    const index = randomLength(allAnswers); // 0 … length - 1
     const [answer] = allAnswers.splice(index, 1); // la salvo come variabile e la rimuovo dall'array per non richiamarla
 
     const li = document.createElement("li");
@@ -156,16 +164,18 @@ function isQuiz(a = QUESTIONS) {
     option.textContent = answer;
     li.appendChild(option);
     ul.appendChild(li);
+
     option.addEventListener("click", (event) => {
       event.preventDefault();
+
       givenAnswers.push({ question: question, answer: answer });
       if (QUESTIONS.length === 0) {
         currentScreen = "results";
-        render();
-      } 
-      else {
-        render();
       }
+
+      a = TIMER_DURATION;
+      render();
+
       console.log(givenAnswers);
     });
   }
@@ -193,3 +203,24 @@ function render() {
 }
 
 render();
+let a = TIMER_DURATION;
+
+function timer() {
+  timerId = setInterval(() => {
+    a--;
+
+    if (a <= 0 && QUESTIONS.length === 0) {
+      clearInterval(timerId); // Interrompe l'intervallo
+      currentScreen = "results";
+      render();
+      return;
+    } else if (a === 0) {
+      a = TIMER_DURATION;
+      render();
+    }
+
+    timer20.textContent = a;
+
+    console.log(a);
+  }, 1000);
+}

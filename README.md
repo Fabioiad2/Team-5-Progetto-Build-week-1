@@ -1,5 +1,7 @@
 #pseudoCodice progettazione
 
+il modo di ridenominare le variabili, id e classi scelto è in lingua inglese e in camelCase
+
 funzione render {
 
     dentro card base mettiamo gli if

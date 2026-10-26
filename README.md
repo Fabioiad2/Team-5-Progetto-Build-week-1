@@ -59,7 +59,7 @@ Viene visualizzato anche un grafico a torta.
 
 Button "Restart" con logica per il reset. (window.reload()) per essere sicuri l'app ripartirà dallo stato iniziale
 
-Sotto il button verra visualizzata la ul di risposte date dall'utente.
+Sotto il button verrà visualizzata la ul di risposte date dall'utente.
 Verrano mostrate tutte le domande estratte durante il quiz con le relative risposte selezionate e il risultato corretto/errata. 
 
 Albero del dom:

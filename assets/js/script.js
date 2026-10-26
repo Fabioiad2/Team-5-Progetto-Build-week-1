@@ -90,6 +90,57 @@ let currentQuestion = 0;
 let score = 0;
 let timerId = null;
 
+const appcontainer = document.querySelector('#app')
+
+function isWelcome(){
+    let title = document.createElement('h2')
+    title.textContent = 'Benvenuto al tuo esame'
+    let paragraph = document.createElement('p')
+    paragraph.textContent = `una serie di 10 domande sul mondo dell'informatica e del web. per ogni domanda hai 20 secondi per rispondere`
+    let lista = document.createElement('ul')
+    let item = document.createElement('li')
+    let startButton = document.createElement('button')
+    startButton.textContent ='inizia'
+    startButton.addEventListener('click',()=>{
+      console.log(currentScreen,"stato prima")
+      currentScreen = 'quiz'
+      console.log(currentScreen,"stato")
+      render()
+    })
+    item.textContent = 'item 1'
+    appcontainer.appendChild(title)
+    appcontainer.appendChild(paragraph)
+    appcontainer.appendChild(lista)
+    appcontainer.appendChild(startButton)
+    lista.appendChild(item)
+
+    
+}
+
+function isQuiz(){
+     console.log('sono qui in quiz')
+    appcontainer.textContent = ''
+}
+
+function result(){
+      appcontainer.textContent = ''
+
+}
+
+function render(){
+  if(currentScreen === 'welcome'){
+    isWelcome()
+  }
+  else if(currentScreen == 'quiz'){
+    isQuiz()
+  }
+  else{
+    result()
+  }
+}
+
+render()
+
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
    - renderWelcome() per la schermata iniziale con button Inizia

@@ -100,20 +100,17 @@ Albero del dom:
 ### RESULT
 <main id="app">
   <div class="results">
-    <h2 class="">Risultati</h2>
+    <h2 class="resultsTitle">Risultati</h2>
     <p>Hai completato il quiz.</p>
-    <span></span>
+    <span class="percentage"></span>
     <div class="passed" class="failed">
-      <p></p>
+      <p>Promosso - Bocciato</p>
     </div>
     <div id="graph">
     </div>
-    <button restart>
+    <button class="restart">
   </div>
 </main>
 
-/* Aggiungi qui le tue regole CSS per:
-   - .results (percentuale, barre orizzontali, verdetto promosso/bocciato, restart)
-*/
 
 

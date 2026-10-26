@@ -122,20 +122,25 @@ function isQuiz(){
     appcontainer.textContent = ''
 }
 
-function result(){
+function IsResult(){
       appcontainer.textContent = ''
+      let titoloSection = document.createElement('h2')
+      titoloSection.textContent = 'result'
+      appcontainer.appendChild(titoloSection)
 
 }
 
 function render(){
-  if(currentScreen === 'welcome'){
-    isWelcome()
-  }
-  else if(currentScreen == 'quiz'){
-    isQuiz()
-  }
-  else{
-    result()
+  switch (currentScreen) {
+    case 'welcome':
+      isWelcome()
+      break;
+    case 'quiz':
+      isQuiz()
+      break
+    case 'result':
+      IsResult()
+      break
   }
 }
 

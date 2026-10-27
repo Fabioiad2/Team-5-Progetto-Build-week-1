@@ -99,6 +99,7 @@ let counterNum = 0;   //numeratore counter
 let greenLight = null; //container opzione corretta
 let timerDiv = null; //div timer
 let timer20 = null; //p timer
+let a = TIMER_DURATION;
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
@@ -153,13 +154,7 @@ function randomLength(a) {
 
 
 function isQuiz(param = QUESTIONS) {
-
-
-  //RESET CARD
   appcontainer.textContent = "";
-  let divQuiz = document.createElement("div");
-  divQuiz.classList.add("quiz");
-
 
 
   //COUNTER
@@ -191,19 +186,23 @@ function isQuiz(param = QUESTIONS) {
   } = q; //destrutturo l'oggetto per richiamare le variabili
   let allAnswers = [correct_answer, ...z];
 
-  //ELEMENTI DI TESTO
+  //ELEMENTI
+  let divQuiz = document.createElement("div");
+  
   let h2 = document.createElement("h2");
   let ul = document.createElement("ul");
-  h2.textContent = question;
-  appcontainer.appendChild(h2);
   let divQ = document.createElement("div");
-  appcontainer.appendChild(divQ);
-  divQ.appendChild(ul);
+
+  h2.textContent = question;
+
   divQ.classList.add("questionnaire");
   h2.classList.add("question");
   ul.classList.add("answers");
+  divQuiz.classList.add("quiz");
 
-
+  appcontainer.appendChild(divQ);
+  divQ.appendChild(ul);
+  appcontainer.appendChild(h2);
 
 
   //OPZIONI CLICCABILI
@@ -287,6 +286,7 @@ function checkResult(percentuale, testo, contenitore) {
 
 function isResult() {
   appcontainer.textContent = "";
+
   //ELEMENTI
   let divResult = document.createElement("div");
   let titoloSection = document.createElement("h2");
@@ -297,11 +297,12 @@ function isResult() {
   let percentage = document.createElement("span");
   let divGraph = document.createElement("div");
 
-  //CONETENUTI
+  //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
   titoloSection.textContent = "Risultati";
   isPassedContainer.id = "isPassedContainer";
   pIsPassed.textContent = "null";
+  buttonRestart.textContent = "Ricomincia";
   percentage.textContent = `${calculatePercentage()} %`;
   
   //CLASSI
@@ -310,17 +311,7 @@ function isResult() {
   divGraph.classList.add("graph");
   buttonRestart.classList.add("restart");
 
-  
-  
-  buttonRestart.textContent = "Ricomincia";
-  
-  //CALLBACK >> checkResult
-  checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
-  
-//EVENT-LISTENER
-  buttonRestart.addEventListener("click", () => {
-    window.location.reload();
-  });
+  //STRUTTURA
   appcontainer.appendChild(divResult);
   divResult.appendChild(titoloSection);
   divResult.appendChild(quizCompleted);
@@ -329,6 +320,17 @@ function isResult() {
   isPassedContainer.appendChild(pIsPassed);
   divResult.appendChild(divGraph);
   divResult.appendChild(buttonRestart);
+  
+  
+  
+  //CALLBACK >> checkResult
+  checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
+  
+//EVENT-LISTENER
+  buttonRestart.addEventListener("click", () => {
+    window.location.reload();
+  });
+
 }
 
 
@@ -348,8 +350,8 @@ function render() {
 }
 render();
 
-let a = TIMER_DURATION;
 
+//TIMER
 function timer() {
   timerId = setInterval(() => {
     a--;

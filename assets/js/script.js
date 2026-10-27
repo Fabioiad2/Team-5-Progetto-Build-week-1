@@ -93,7 +93,7 @@ let timerId = null;
 //VAR & CONST
 const appcontainer = document.querySelector("#app");
 const givenAnswers = [];
-let counterNum = 0;
+
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
@@ -141,11 +141,9 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.textContent = "";
 
   //COUNTER
-  counterNum++;
-  let counterDiv = document.createElement("div");
-  counterDiv.id = "counter"; // id per CSS <<-------------------------
-  appcontainer.appendChild(counterDiv);
-  counterDiv.textContent = ` ${counterNum}/${TOTAL_QUESTIONS}`;
+  let counter = document.createElement('p');
+  counter.textContent= `${TOTAL_QUESTIONS - QUESTIONS.length + 1} di ${TOTAL_QUESTIONS}`
+  appcontainer.appendChild(counter);
 
   //LOG
   console.log("sono qui in quiz");

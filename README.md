@@ -147,6 +147,8 @@ function IsResult() {
 
   let pIsPassed = document.createElement("p");
   pIsPassed.textContent = "null";
+
+
   let divGraph = document.createElement("div");
   divGraph.classList.add("graph");
 
@@ -174,7 +176,14 @@ function IsResult() {
   divResult.appendChild(buttonRestart);
 }
  
+function checkResult(percentage, element){
+  if (percentage >= 60){
+element.textContent = "Superato"
 
+  }
+} 
+
+// creazione della tabella del resoconto 
 
 
 

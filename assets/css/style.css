@@ -175,12 +175,12 @@ li .wrong:hover {
   font-size: xx-large;
 }
 
-.passed p {
+.passed {
   background-color: #2d6a4f;
   color: whitesmoke;
 }
 
-.failed p {
+.failed {
   background-color: #e63946;
   color: whitesmoke;
 }

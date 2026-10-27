@@ -167,7 +167,7 @@ function isQuiz(param = QUESTIONS) {
   timerDiv.id = "timer";
   timer20.textContent = 20;
   timerDiv.appendChild(timer20);
-  appcontainer.appendChild(timerDiv);
+  appcontainer.appendChild(timerDiv);                                                  
 
   //LOGICA
   let i = randomLength(param);
@@ -262,6 +262,12 @@ function calculatePercentage() {
   return (corrects / givenAnswers.length) * 100;
 }
 
+function checkResult(percentuale, testo, contenitore) {
+  const passed = percentuale >= PASS_THRESHOLD; //60
+  testo.textContent = passed ? "Superato" : "Fallito";
+  contenitore.classList.add(passed ? "passed" : "failed");
+}
+
 
 function isResult() {
   appcontainer.textContent = "";
@@ -274,7 +280,7 @@ function isResult() {
   titoloSection.textContent = "Risultati";
   // isPassed indica promosso o bocciato in inglese
   let isPassedContainer = document.createElement("div");
-  isPassedContainer.classList.add("passed");
+  isPassedContainer.id = "isPassedContainer";
   let pIsPassed = document.createElement("p");
   pIsPassed.textContent = "null";
   let divGraph = document.createElement("div");
@@ -285,6 +291,8 @@ function isResult() {
   buttonRestart.classList.add("restart");
   buttonRestart.textContent = "Ricomincia";
 
+
+  checkResult(calculatePercentage(), pIsPassed, isPassedContainer);
 
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
@@ -343,6 +351,6 @@ function timer() {
 
     timer20.textContent = a;
 
-    console.log(a);
+    // console.log(a);
   }, 1000);
 }

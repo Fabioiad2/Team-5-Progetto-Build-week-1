@@ -231,7 +231,7 @@ function isQuiz(param = QUESTIONS) {
       event.preventDefault();
 
 
-      //NEGA-BOTTONI
+      //DISABILITA-BOTTONI
       const buttons = document.querySelectorAll('.optionButton');
       buttons.forEach((button) => {
         button.disabled = true;
@@ -282,7 +282,7 @@ function calculatePercentage() {
 
 //CHECK-RESULT
 function checkResult(percentuale, testo, contenitore) {
-  const passed = percentuale >= PASS_THRESHOLD; //60
+  const passed = (percentuale >= PASS_THRESHOLD); //60
   testo.textContent = passed ? "Promosso" : "Bocciato";
   contenitore.classList.add(passed ? "passed" : "failed");
 }
@@ -307,7 +307,7 @@ function isResult() {
   isPassedContainer.id = "isPassedContainer";
   pIsPassed.textContent = "null";
   buttonRestart.textContent = "Ricomincia";
-  percentage.textContent = `${calculatePercentage()} %`;
+  percentage.textContent = `${calculatePercentage()}%`;
 
   //CLASSI
   divResult.classList.add("results");
@@ -373,26 +373,27 @@ function timer() {
       });
     }
     // da rivedere mercoledi credo che invece del && vada fatto prima un if su 'a' e poi question.lenght altrimenti le controlla sempre insieme e non possiamo azzerare a perchè la funzione scatta quando 'a' è già 0
-    if(QUESTIONS.length === 0){
+    if (QUESTIONS.length === 0) {
       return a = 0
     }
 
-    //da unire e sistemare
-
+    //time-out ultima domanda
     if (a <= 0 && QUESTIONS.length === 0) {
       clearInterval(timerId); // Interrompe l'intervallo
-      givenAnswers.push({ question: currentQuestion, answer:""})
+      givenAnswers.push({ question: currentQuestion, answer: "" })
       currentScreen = "results";
       console.log(QUESTIONS.length)
       console.log('sono nel primo if quindi non ci sono più domande') // non viene mostrato finchè il timer in result non scade
-      a = 0
+      a = 0;
       render();
       clearInterval()
       return;
-    } else if (a == 0) {
+    }
+    //time-out normale
+    else if (a == 0) {
       a = TIMER_DURATION;
       console.log('time azzerato')
-      givenAnswers.push({ question: currentQuestion, answer:"" })
+      givenAnswers.push({ question: currentQuestion, answer: "" })
       console.log("else")
       render();
     }
@@ -400,6 +401,6 @@ function timer() {
     timer20.textContent = a;
 
     console.log(a);
-    // inserire clear Interval
+    
   }, 1000);
 }

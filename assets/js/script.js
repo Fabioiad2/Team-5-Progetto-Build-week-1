@@ -92,13 +92,13 @@ let score = 0;
 let timerId = null;
 
 //VAR & CONST
-const appcontainer = document.querySelector("#app");
-const givenAnswers = [];
-const greenArray = [];
-let counterNum = 0;
-let greenLight = null;
-let timerDiv = null;
-let timer20;
+const appcontainer = document.querySelector("#app"); //main
+const givenAnswers = []; // arrai {domanda: , risposta:}
+const greenArray = [];  //array risposte corrette
+let counterNum = 0;   //numeratore counter
+let greenLight = null; //container opzione corretta
+let timerDiv = null; //div timer
+let timer20 = null; //p timer
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
@@ -112,18 +112,25 @@ let timer20;
 */
 
 function isWelcome() {
+  //ELEMENTI
   let divWelcome = document.createElement("div");
-  divWelcome.classList.add("welcome");
   let title = document.createElement("h2");
-  title.classList.add("title");
-  title.textContent = "Benvenuto al tuo esame";
   let paragraph = document.createElement("p");
+  let startButton = document.createElement("button");
+
+  // DIAMO CONTENUTO
+  title.textContent = "Benvenuto al tuo esame";
   paragraph.classList.add("intro");
 
+  // DIAMO ATTRIBUTI
+  divWelcome.classList.add("welcome");
+  title.classList.add("title");
   paragraph.innerHTML = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere.`;
-  let startButton = document.createElement("button");
+
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
+
+  //EVENT-LISTENER
   startButton.addEventListener("click", () => {
     console.log(currentScreen, "stato prima");
     currentScreen = "quiz";
@@ -132,6 +139,8 @@ function isWelcome() {
     timer();
     render();
   });
+
+  //STRUTTURA
   appcontainer.appendChild(divWelcome);
   divWelcome.appendChild(title);
   divWelcome.appendChild(paragraph);
@@ -144,10 +153,13 @@ function randomLength(a) {
 
 
 function isQuiz(param = QUESTIONS) {
+
+
   //RESET CARD
   appcontainer.textContent = "";
   let divQuiz = document.createElement("div");
   divQuiz.classList.add("quiz");
+
 
 
   //COUNTER
@@ -167,7 +179,7 @@ function isQuiz(param = QUESTIONS) {
   timerDiv.id = "timer";
   timer20.textContent = 20;
   timerDiv.appendChild(timer20);
-  appcontainer.appendChild(timerDiv);                                                  
+  appcontainer.appendChild(timerDiv);
 
   //LOGICA
   let i = randomLength(param);
@@ -200,10 +212,11 @@ function isQuiz(param = QUESTIONS) {
     const [answer] = allAnswers.splice(index, 1); // la salvo come variabile e la rimuovo dall'array per non richiamarla
 
     const li = document.createElement("li");
-    const option = document.createElement("button"); //opzioni come elementi di lisat cliccabili
+    const option = document.createElement("button"); //opzioni come elementi di lista cliccabili
     option.textContent = answer;
     option.classList.add("optionButton"); //classe per CSS
 
+    //SALVO L'OPZIONE CORRETTA
     if (answer === correct_answer) {
       greenLight = option;
     }
@@ -214,11 +227,13 @@ function isQuiz(param = QUESTIONS) {
     option.addEventListener("click", (event) => {
       event.preventDefault();
 
-      const buttons = document.querySelectorAll('.optionButton');
 
+      //NEGA-BOTTONI
+      const buttons = document.querySelectorAll('.optionButton');
       buttons.forEach((button) => {
         button.disabled = true;
       });
+
 
       //CHECK RISPOSTA CORRETTA
       if (answer === correct_answer) {
@@ -230,9 +245,9 @@ function isQuiz(param = QUESTIONS) {
         console.log("WRONG!");
       }
 
-      //ARRAY RISPOSTE DATE
+
+      //ARRAY RISPOSTE DATE + ARRAY RISPOSTE CORRETTE
       givenAnswers.push({ question: question, answer: answer });
-      //ARRAY RISPOSTE CORRETTE
       greenArray.push(correct_answer);
 
       console.log(givenAnswers);
@@ -262,38 +277,47 @@ function calculatePercentage() {
   return (corrects / givenAnswers.length) * 100;
 }
 
+//CHECK-RESULT
 function checkResult(percentuale, testo, contenitore) {
   const passed = percentuale >= PASS_THRESHOLD; //60
-  testo.textContent = passed ? "Superato" : "Fallito";
+  testo.textContent = passed ? "Promosso" : "Bocciato";
   contenitore.classList.add(passed ? "passed" : "failed");
 }
 
 
 function isResult() {
   appcontainer.textContent = "";
+  //ELEMENTI
   let divResult = document.createElement("div");
-  divResult.classList.add("results");
   let titoloSection = document.createElement("h2");
   let quizCompleted = document.createElement("p");
-  quizCompleted.textContent = "Quiz completato!";
-  titoloSection.classList.add("resultsTitle");
-  titoloSection.textContent = "Risultati";
-  // isPassed indica promosso o bocciato in inglese
   let isPassedContainer = document.createElement("div");
-  isPassedContainer.id = "isPassedContainer";
   let pIsPassed = document.createElement("p");
-  pIsPassed.textContent = "null";
-  let divGraph = document.createElement("div");
-  divGraph.classList.add("graph");
-  let percentage = document.createElement("span");
-  percentage.textContent = `${calculatePercentage()} %`;
   let buttonRestart = document.createElement("button");
+  let percentage = document.createElement("span");
+  let divGraph = document.createElement("div");
+
+  //CONETENUTI
+  quizCompleted.textContent = "Quiz completato!";
+  titoloSection.textContent = "Risultati";
+  isPassedContainer.id = "isPassedContainer";
+  pIsPassed.textContent = "null";
+  percentage.textContent = `${calculatePercentage()} %`;
+  
+  //CLASSI
+  divResult.classList.add("results");
+  titoloSection.classList.add("resultsTitle");
+  divGraph.classList.add("graph");
   buttonRestart.classList.add("restart");
+
+  
+  
   buttonRestart.textContent = "Ricomincia";
-
-
-  checkResult(calculatePercentage(), pIsPassed, isPassedContainer);
-
+  
+  //CALLBACK >> checkResult
+  checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
+  
+//EVENT-LISTENER
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
   });
@@ -307,6 +331,8 @@ function isResult() {
   divResult.appendChild(buttonRestart);
 }
 
+
+REN//
 function render() {
   switch (currentScreen) {
     case "welcome":

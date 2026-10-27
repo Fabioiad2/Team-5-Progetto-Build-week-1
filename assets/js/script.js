@@ -332,7 +332,7 @@ function isResult() {
 }
 
 
-REN//
+//RENDER
 function render() {
   switch (currentScreen) {
     case "welcome":

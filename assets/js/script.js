@@ -13,6 +13,7 @@
    - correct_answer: la risposta corretta (string)
    - incorrect_answers: array di risposte sbagliate (string[])
 */
+
 const QUESTIONS = [
   {
     question: "Cosa significa l'acronimo CPU?",
@@ -93,7 +94,11 @@ let timerId = null;
 //VAR & CONST
 const appcontainer = document.querySelector("#app");
 const givenAnswers = [];
+const greenArray = [];
 let counterNum = 0;
+let greenLight = null;
+let timerDiv = null;
+let timer20;
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
@@ -136,7 +141,7 @@ function isWelcome() {
 function randomLength(a) {
   return Math.floor(Math.random() * a.length); //return un intero a caso da 0 a lenght
 }
-let timer20;
+
 
 function isQuiz(param = QUESTIONS) {
   //RESET CARD
@@ -153,14 +158,12 @@ function isQuiz(param = QUESTIONS) {
   container.classList = "container";
   appcontainer.appendChild(container);
   container.appendChild(counterDiv);
-  counterDiv.textContent = ` ${counterNum}/${TOTAL_QUESTIONS}`;
+  counterDiv.textContent = `Domanda: ${counterNum} su ${TOTAL_QUESTIONS}`;
 
-  //LOG
-  console.log("sono qui in quiz");
 
   //TIMER
-  timer20 = document.createElement("span");
-  let timerDiv = document.createElement("div");
+  timer20 = document.createElement("p")
+  timerDiv = document.createElement("div");
   timerDiv.id = "timer";
   timer20.textContent = 20;
   timerDiv.appendChild(timer20);
@@ -181,15 +184,16 @@ function isQuiz(param = QUESTIONS) {
   let ul = document.createElement("ul");
   h2.textContent = question;
   appcontainer.appendChild(h2);
-  appcontainer.appendChild(ul);
+  let divQ = document.createElement("div");
+  appcontainer.appendChild(divQ);
+  divQ.appendChild(ul);
+  divQ.classList.add("questionnaire");
+  h2.classList.add("question");
+  ul.classList.add("answers");
 
-  //questionnaire
-  let divQuestionnaire = document.createElement("div");
-  divQuestionnaire.classList.add("questionnaire");
-  let h2Questionnaire = document.createElement("h2");
-  h2Questionnaire.classList.add("question");
 
-  let greenLight = null;
+
+
   //OPZIONI CLICCABILI
   while (allAnswers.length > 0) {
     const index = randomLength(allAnswers); // 0 … length - 1
@@ -210,6 +214,12 @@ function isQuiz(param = QUESTIONS) {
     option.addEventListener("click", (event) => {
       event.preventDefault();
 
+      const buttons = document.querySelectorAll('.optionButton');
+
+      buttons.forEach((button) => {
+        button.disabled = true;
+      });
+
       //CHECK RISPOSTA CORRETTA
       if (answer === correct_answer) {
         option.classList.add("correct");
@@ -220,9 +230,15 @@ function isQuiz(param = QUESTIONS) {
         console.log("WRONG!");
       }
 
-      //ARRAY RISPOSTE
+      //ARRAY RISPOSTE DATE
       givenAnswers.push({ question: question, answer: answer });
+      //ARRAY RISPOSTE CORRETTE
+      greenArray.push(correct_answer);
 
+      console.log(givenAnswers);
+      console.log(greenArray);
+
+      //DELAY
       setTimeout(() => {
         if (QUESTIONS.length === 0) {
           currentScreen = "results";
@@ -231,20 +247,31 @@ function isQuiz(param = QUESTIONS) {
         render();
       }, 2000);
 
-      console.log(givenAnswers);
     });
   }
 }
 
-function IsResult() {
+//PERCENTUALE
+function calculatePercentage() {
+  if (givenAnswers.length === 0) return 0; // evita la divisione per zero
+
+  const corrects = givenAnswers.filter(
+    (obj, i) => obj.answer === greenArray[i]
+  ).length;
+
+  return (corrects / givenAnswers.length) * 100;
+}
+
+
+function isResult() {
   appcontainer.textContent = "";
   let divResult = document.createElement("div");
   divResult.classList.add("results");
   let titoloSection = document.createElement("h2");
   let quizCompleted = document.createElement("p");
-  quizCompleted.textContent = "Quiz completato";
+  quizCompleted.textContent = "Quiz completato!";
   titoloSection.classList.add("resultsTitle");
-  titoloSection.textContent = "result";
+  titoloSection.textContent = "Risultati";
   // isPassed indica promosso o bocciato in inglese
   let isPassedContainer = document.createElement("div");
   isPassedContainer.classList.add("passed");
@@ -253,10 +280,12 @@ function IsResult() {
   let divGraph = document.createElement("div");
   divGraph.classList.add("graph");
   let percentage = document.createElement("span");
-  percentage.textContent = "100%";
+  percentage.textContent = `${calculatePercentage()} %`;
   let buttonRestart = document.createElement("button");
   buttonRestart.classList.add("restart");
   buttonRestart.textContent = "Ricomincia";
+
+
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
   });
@@ -279,24 +308,35 @@ function render() {
       isQuiz();
       break;
     case "results":
-      IsResult();
+      isResult();
       break;
   }
 }
-
 render();
+
 let a = TIMER_DURATION;
 
 function timer() {
   timerId = setInterval(() => {
     a--;
+    if (a === 5) {
+      timerDiv.classList.add("warning");
+    }
+    if (a === 1) {
+      greenLight.classList.add("correct"); //greenLight salva la risposta giusta (optionButton contenente la risposta corretta) ad ogni render di domanda
 
+      const buttons = document.querySelectorAll('.optionButton');
+
+      buttons.forEach((button) => {
+        button.disabled = true;
+      });
+    }
     if (a <= 0 && QUESTIONS.length === 0) {
       clearInterval(timerId); // Interrompe l'intervallo
       currentScreen = "results";
       render();
       return;
-    } else if (a === 0) {
+    } else if (a <= 0) {
       a = TIMER_DURATION;
       render();
     }

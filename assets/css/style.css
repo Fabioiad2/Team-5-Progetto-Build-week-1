@@ -6,7 +6,9 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: /*#1b1535*/ url("/assets/bg.jpg") center / cover no-repeat fixed;
+  background:
+    /*#1b1535*/
+    url("/assets/bg.jpg") center / cover no-repeat fixed;
   color: #1b2845;
   min-height: 100vh;
   display: flex;
@@ -53,14 +55,16 @@ body {
   text-underline-offset: 4px;
 }
 
-.start, .restart {
+.start,
+.restart {
   border: 2px solid #3B1455;
   border-radius: 12px;
   color: #3B1455;
   background-color: whitesmoke;
-  padding: 7px 15px; /* Scorciatoia per padding verticale e orizzontale */
+  padding: 7px 15px;
+  /* Scorciatoia per padding verticale e orizzontale */
   font-weight: bold;
-  
+
   /* Proprietà per centrare il bottone */
   display: block;
   margin-left: auto;
@@ -68,7 +72,7 @@ body {
   margin-top: 20px;
 }
 
-/* Quiz Render #6A2872*/
+/* Quiz Render */
 
 .counters {
   display: flex;
@@ -82,67 +86,110 @@ body {
   color: #3B1455;
   font-size: small;
   float: left;
+  margin-top: 6px;
 }
 
 #timer {
   color: #3B1455;
   float: right;
+  border: 2px solid #3B1455;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 10px;
 }
 
-.answer{
+.warning {
+  background-color: #e63946;
+}
+
+.warning p {
+  color: whitesmoke;
+}
+
+.question {
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.answer {
   list-style: none;
 }
 
-.question{
-  font-weight: bold;
-  
+ul {
+  list-style-type: none;
 }
 
-
-
-li .optionButton{
+li .optionButton {
   border: 2px solid #3B1455;
   border-radius: 12px;
   color: #1b2845;
   background-color: whitesmoke;
   padding: 7px;
   width: 100%;
-  font-weight: 400;
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-size: medium;
 }
 
-li .correct{
-background-color: green;
+li .optionButton:hover {
+  background-color: rgba(235, 209, 238, 0.8);
+  color: #1b2845;
 }
 
-li .wrong{
-background-color: red;  
+li .correct {
+  background-color: #2d6a4f;
+  color: whitesmoke;
+}
+
+li .correct:hover {
+  background-color: #2d6a4f;
+  color: whitesmoke;
+}
+
+li .wrong {
+  background-color: #e63946;
+  color: white;
+}
+
+li .wrong:hover {
+  background-color: #e63946;
+  color: white;
 }
 
 /* Result Render */
 
-/*
-### QUIZ
-<main id="app">
-  <div class="quiz">
-    <div class="counters">
-      <div id="counter">
-        <p></p>
-      </div>
-      <div id="timer">
-        <span></span>
-      </div>
-    </div>
-   <div class="questionnaire"> 
-    <h2 class="question">
-     <ul class="answers">
-       <li class="correct wrong">
-       <button></button>
-       </li>
-     </ul>
-    </div>
-  </div>
-</main>
+.resultsTitle{
+  text-align: center;
+  font-size:x-large;
+  margin-bottom: 10px;
+}
 
+.results p {
+  text-align: center;
+}
+
+.percentage {
+  font-size: xx-large;
+}
+
+.passed p {
+  background-color: #2d6a4f;
+  color: whitesmoke;
+}
+
+.failed p {
+  background-color: #e63946;
+  color: whitesmoke;
+}
+
+.graph {
+ text-align: center; 
+}
+
+/*
 ### RESULT
 <main id="app">
   <div class="results">

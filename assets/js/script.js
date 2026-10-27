@@ -199,10 +199,11 @@ function isQuiz(param = QUESTIONS) {
   h2.classList.add("question");
   ul.classList.add("answers");
   divQuiz.classList.add("quiz");
-
+  
+ appcontainer.appendChild(h2);
   appcontainer.appendChild(divQ);
   divQ.appendChild(ul);
-  appcontainer.appendChild(h2);
+ 
 
 
   //OPZIONI CLICCABILI

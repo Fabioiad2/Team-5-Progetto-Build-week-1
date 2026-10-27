@@ -90,8 +90,10 @@ let currentQuestion = 0;
 let score = 0;
 let timerId = null;
 
+//VAR & CONST
 const appcontainer = document.querySelector("#app");
 const givenAnswers = [];
+let counterNum = 0;
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
@@ -117,6 +119,7 @@ function isWelcome() {
     console.log(currentScreen, "stato prima");
     currentScreen = "quiz";
     console.log(currentScreen, "stato");
+
     timer();
     render();
   });
@@ -134,33 +137,44 @@ function randomLength(a) {
 let timer20;
 
 function isQuiz(param = QUESTIONS) {
+  //RESET CARD
   appcontainer.textContent = "";
 
-  //AGGIUNGERE UN CHECK quando QUESTIONS è vuoto per cambiare lo stato
+  //COUNTER
+  counterNum++;
+  let counterDiv = document.createElement("div");
+  counterDiv.id = "counter"; // id per CSS <<-------------------------
+  appcontainer.appendChild(counterDiv);
+  counterDiv.textContent = ` ${counterNum}/${TOTAL_QUESTIONS}`;
+
+  //LOG
   console.log("sono qui in quiz");
 
+  //TIMER
   timer20 = document.createElement("span");
   timer20.textContent = 20;
   appcontainer.appendChild(timer20);
 
+  //LOGICA
   let i = randomLength(param);
   const [q] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
   const { question: question, correct_answer: y, incorrect_answers: z } = q; //destrutturo l'oggetto per richiamare le variabili
-
-  let h2 = document.createElement("h2");
-  let ul = document.createElement("ul");
   let allAnswers = [y, ...z];
 
+  //ELEMENTI DI TESTO
+  let h2 = document.createElement("h2");
+  let ul = document.createElement("ul");
   h2.textContent = question;
   appcontainer.appendChild(h2);
   appcontainer.appendChild(ul);
-
+ 
+  //OPZIONI CLICCABILI
   while (allAnswers.length > 0) {
     const index = randomLength(allAnswers); // 0 … length - 1
     const [answer] = allAnswers.splice(index, 1); // la salvo come variabile e la rimuovo dall'array per non richiamarla
 
     const li = document.createElement("li");
-    const option = document.createElement("button");
+    const option = document.createElement("button"); //opzioni come elementi di lisat cliccabili
     option.textContent = answer;
     li.appendChild(option);
     ul.appendChild(li);

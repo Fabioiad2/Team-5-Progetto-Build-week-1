@@ -16,7 +16,7 @@ funzione render {
     isResult
   }
 
-}
+}  
 
 il nostro stato iniziale è : welcome
 
@@ -114,3 +114,5 @@ Albero del dom:
 
 
 
+Progetto realizzato da:
+Fabio Iadicicco

@@ -62,7 +62,7 @@ Button "Restart" con logica per il reset. (window.reload()) per essere sicuri l'
 Sotto il button verrà visualizzata la ul di risposte date dall'utente.
 Verrano mostrate tutte le domande estratte durante il quiz con le relative risposte selezionate e il risultato corretto/errata. 
 
-Albero del dom:
+<code>Albero del dom:
 ### WELCOME
 <main id="app">
   <div class="welcome">
@@ -107,7 +107,7 @@ Albero del dom:
     <button class="restart">
   </div>
 </main>
-
+</code>
 
 
 

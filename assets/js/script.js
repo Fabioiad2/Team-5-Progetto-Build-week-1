@@ -87,7 +87,6 @@ const TIMER_DURATION = 20; // secondi per ogni question
 
 /* Stato globale */
 let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
-let currentQuestion = 0;
 let score = 0;
 let timerId = null;
 
@@ -100,6 +99,7 @@ let greenLight = null; //container opzione corretta
 let timerDiv = null; //div timer
 let timer20 = null; //p timer
 let a = TIMER_DURATION;
+let currentQuestion = null;
 
 /* SCRIVI QUI LE TUE FUNZIONI:
    - render() che chiama renderWelcome / renderQuiz / renderResults in base a currentScreen
@@ -126,7 +126,7 @@ function isWelcome() {
   // DIAMO ATTRIBUTI
   divWelcome.classList.add("welcome");
   title.classList.add("title");
-  paragraph.innerHTML = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere.`;
+  paragraph.innerHTML = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere. Il test dura circa 3 minuti.`;
 
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
@@ -176,6 +176,26 @@ function isQuiz(param = QUESTIONS) {
   timerDiv.appendChild(timer20);
   appcontainer.appendChild(timerDiv);
 
+  //ELEMENTI
+  let divQuiz = document.createElement("div");
+  let h2 = document.createElement("h2");
+  let ul = document.createElement("ul");
+  let divQ = document.createElement("div");
+
+
+
+  //CLASSI
+  divQ.classList.add("questionnaire");
+  h2.classList.add("question");
+  ul.classList.add("answers");
+  divQuiz.classList.add("quiz");
+
+  //STRUTTURA
+  appcontainer.appendChild(h2);
+  appcontainer.appendChild(divQ);
+  divQ.appendChild(ul);
+
+
   //LOGICA
   let i = randomLength(param);
   const [q] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
@@ -184,26 +204,10 @@ function isQuiz(param = QUESTIONS) {
     correct_answer: correct_answer,
     incorrect_answers: z,
   } = q; //destrutturo l'oggetto per richiamare le variabili
+
   let allAnswers = [correct_answer, ...z];
-
-  //ELEMENTI
-  let divQuiz = document.createElement("div");
-  
-  let h2 = document.createElement("h2");
-  let ul = document.createElement("ul");
-  let divQ = document.createElement("div");
-
+  currentQuestion = question;
   h2.textContent = question;
-
-  divQ.classList.add("questionnaire");
-  h2.classList.add("question");
-  ul.classList.add("answers");
-  divQuiz.classList.add("quiz");
-
-  appcontainer.appendChild(divQ);
-  divQ.appendChild(ul);
-  appcontainer.appendChild(h2);
-
 
   //OPZIONI CLICCABILI
   while (allAnswers.length > 0) {
@@ -304,12 +308,13 @@ function isResult() {
   pIsPassed.textContent = "null";
   buttonRestart.textContent = "Ricomincia";
   percentage.textContent = `${calculatePercentage()} %`;
-  
+
   //CLASSI
   divResult.classList.add("results");
   titoloSection.classList.add("resultsTitle");
   divGraph.classList.add("graph");
   buttonRestart.classList.add("restart");
+  percentage.classList.add("percentage");
 
   //STRUTTURA
   appcontainer.appendChild(divResult);
@@ -320,13 +325,13 @@ function isResult() {
   isPassedContainer.appendChild(pIsPassed);
   divResult.appendChild(divGraph);
   divResult.appendChild(buttonRestart);
-  
-  
-  
+
+
+
   //CALLBACK >> checkResult
   checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
-  
-//EVENT-LISTENER
+
+  //EVENT-LISTENER
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
   });
@@ -367,18 +372,34 @@ function timer() {
         button.disabled = true;
       });
     }
+    // da rivedere mercoledi credo che invece del && vada fatto prima un if su 'a' e poi question.lenght altrimenti le controlla sempre insieme e non possiamo azzerare a perchè la funzione scatta quando 'a' è già 0
+    if(QUESTIONS.length === 0){
+      return a = 0
+    }
+
+    //da unire e sistemare
+
     if (a <= 0 && QUESTIONS.length === 0) {
       clearInterval(timerId); // Interrompe l'intervallo
+      givenAnswers.push({ question: currentQuestion, answer:""})
       currentScreen = "results";
+      console.log(QUESTIONS.length)
+      console.log('sono nel primo if quindi non ci sono più domande') // non viene mostrato finchè il timer in result non scade
+      a = 0
       render();
+      clearInterval()
       return;
-    } else if (a <= 0) {
+    } else if (a == 0) {
       a = TIMER_DURATION;
+      console.log('time azzerato')
+      givenAnswers.push({ question: currentQuestion, answer:"" })
+      console.log("else")
       render();
     }
 
     timer20.textContent = a;
 
-    // console.log(a);
+    console.log(a);
+    // inserire clear Interval
   }, 1000);
 }

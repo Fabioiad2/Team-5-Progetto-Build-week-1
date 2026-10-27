@@ -67,22 +67,19 @@ Albero del dom:
 <main id="app">
   <div class="welcome">
     <h2 class="title">
-    <p class="intro"></p>
-    <ul>
-      <li></li>
-      </ul>
-    <button start>
+    <p class="intro"><span>20 secondi</span></p>
+    <button class= 'start'></button>
   </div>
 </main>
 
 ### QUIZ
 <main id="app">
   <div class="quiz">
-    <div class="counters">
-      <div class="counter">
-        <p></p>
+    <div class="container">
+      <div id="counter">
+        <h2></h2>
       </div>
-      <div class="timer">
+      <div id="timer">
         <span></span>
       </div>
     </div>
@@ -119,3 +116,4 @@ Fabio Iadicicco
 Miriam Caridi
 Matteo Brucculeri
 Adriano Sant'Angelo
+Lisa Irene Sciacca 

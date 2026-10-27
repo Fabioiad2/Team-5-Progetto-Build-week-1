@@ -6,8 +6,9 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: #1b1535 url("assets/bg.jpg") center / cover no-repeat fixed;
+  background: /*#1b1535*/ url("/assets/bg.jpg") center / cover no-repeat fixed;
   color: #1b2845;
+  color: #3B1455;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -27,7 +28,7 @@ body {
 }
 
 #app {
-  background: #ffffff;
+  background: whitesmoke;
   border-radius: 16px;
   padding: 40px;
   max-width: 720px;
@@ -35,8 +36,118 @@ body {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
-/* Aggiungi qui le tue regole CSS per:
-   - .welcome (titolo, intro, button Inizia)
-   - .quiz (counter, timer, domanda, button risposta, classi correct/wrong)
-   - .results (percentuale, barre orizzontali, verdetto promosso/bocciato, restart)
+/* Welcome Render */
+
+.welcome .title {
+  text-align: center;
+  padding: 5px;
+  font-size: x-large;
+}
+
+.welcome .intro {
+  padding: 5px;
+  text-align: justify;
+}
+
+.welcome .intro span {
+  text-decoration: underline;
+}
+
+.start, .restart{
+  border: 2px solid #3B1455  ;
+  border-radius: 12px;
+  color: #3B1455;
+  background-color: whitesmoke;
+  padding: 7px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: bold;
+
+  /* centramento del bottone*/
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Quiz Render #6A2872*/
+
+.counters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.counter {
+  color: #3B1455;
+  font-size: small;
+}
+
+.timer {
+  color: #3B1455;
+}
+
+.quiz ul li{
+  list-style: none;
+}
+
+.question{
+  font-weight: bold;
+  
+
+
+}
+
+.questionnaire button{
+  border: 2px solid #3B1455;
+  border-radius: 12px;
+  color: #1b2845;
+  background-color: whitesmoke;
+  padding: 7px;
+  
+}
+
+
+
+/* Result Render */
+
+/*
+### QUIZ
+<main id="app">
+  <div class="quiz">
+    <div class="counters">
+      <div id="counter">
+        <p></p>
+      </div>
+      <div id="timer">
+        <span></span>
+      </div>
+    </div>
+   <div class="questionnaire"> 
+    <h2 class="question">
+     <ul class="answers">
+       <li class="correct wrong">
+       <button></button>
+       </li>
+     </ul>
+    </div>
+  </div>
+</main>
+
+### RESULT
+<main id="app">
+  <div class="results">
+    <h2 class="resultsTitle">Risultati</h2>
+    <p>Hai completato il quiz.</p>
+    <span class="percentage"></span>
+    <div class="passed" class="failed">
+      <p>Promosso - Bocciato</p>
+    </div>
+    <div id="graph">
+    </div>
+    <button class="restart">
+  </div>
+</main>
 */

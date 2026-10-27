@@ -107,13 +107,17 @@ let counterNum = 0;
 */
 
 function isWelcome() {
+  let divWelcome = document.createElement("div");
+  divWelcome.classList.add("welcome");
   let title = document.createElement("h2");
+  title.classList.add("title");
   title.textContent = "Benvenuto al tuo esame";
   let paragraph = document.createElement("p");
-  paragraph.textContent = `Una serie di 10 domande sul mondo dell'informatica e del web. Per ogni domanda hai 20 secondi di tempo per rispondere.`;
-  let list = document.createElement("ul");
-  let item = document.createElement("li");
+  paragraph.classList.add("intro");
+
+  paragraph.textContent = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere.`;
   let startButton = document.createElement("button");
+  startButton.classList.add("start");
   startButton.textContent = "Inizia";
   startButton.addEventListener("click", () => {
     console.log(currentScreen, "stato prima");
@@ -123,12 +127,10 @@ function isWelcome() {
     timer();
     render();
   });
-  item.textContent = "item 1";
-  appcontainer.appendChild(title);
-  appcontainer.appendChild(paragraph);
-  appcontainer.appendChild(list);
-  appcontainer.appendChild(startButton);
-  list.appendChild(item);
+  appcontainer.appendChild(divWelcome);
+  divWelcome.appendChild(title);
+  divWelcome.appendChild(paragraph);
+  divWelcome.appendChild(startButton);
 }
 
 function randomLength(a) {
@@ -139,12 +141,18 @@ let timer20;
 function isQuiz(param = QUESTIONS) {
   //RESET CARD
   appcontainer.textContent = "";
+  let divQuiz = document.createElement("div");
+  divQuiz.classList.add("quiz");
+  // h2
 
   //COUNTER
   counterNum++;
+  let container = document.createElement("div");
   let counterDiv = document.createElement("div");
   counterDiv.id = "counter"; // id per CSS <<-------------------------
-  appcontainer.appendChild(counterDiv);
+  container.classList = "container";
+  appcontainer.appendChild(container);
+  container.appendChild(counterDiv);
   counterDiv.textContent = ` ${counterNum}/${TOTAL_QUESTIONS}`;
 
   //LOG
@@ -152,14 +160,21 @@ function isQuiz(param = QUESTIONS) {
 
   //TIMER
   timer20 = document.createElement("span");
+  let timerDiv = document.createElement("div");
+  timerDiv.id = "timer";
   timer20.textContent = 20;
-  appcontainer.appendChild(timer20);
+  timerDiv.appendChild(timer20);
+  appcontainer.appendChild(timerDiv);
 
   //LOGICA
   let i = randomLength(param);
   const [q] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
-  const { question: question, correct_answer: y, incorrect_answers: z } = q; //destrutturo l'oggetto per richiamare le variabili
-  let allAnswers = [y, ...z];
+  const {
+    question: question,
+    correct_answer: correct_answer,
+    incorrect_answers: z,
+  } = q; //destrutturo l'oggetto per richiamare le variabili
+  let allAnswers = [correct_answer, ...z];
 
   //ELEMENTI DI TESTO
   let h2 = document.createElement("h2");
@@ -167,7 +182,14 @@ function isQuiz(param = QUESTIONS) {
   h2.textContent = question;
   appcontainer.appendChild(h2);
   appcontainer.appendChild(ul);
- 
+
+  //questionnaire
+  let divQuestionnaire = document.createElement("div");
+  divQuestionnaire.classList.add("questionnaire");
+  let h2Questionnaire = document.createElement("h2");
+  h2Questionnaire.classList.add("question");
+
+  let greenLight = null;
   //OPZIONI CLICCABILI
   while (allAnswers.length > 0) {
     const index = randomLength(allAnswers); // 0 … length - 1
@@ -176,11 +198,24 @@ function isQuiz(param = QUESTIONS) {
     const li = document.createElement("li");
     const option = document.createElement("button"); //opzioni come elementi di lisat cliccabili
     option.textContent = answer;
+
+    if (answer === correct_answer) {
+       greenLight = option;
+    }
     li.appendChild(option);
     ul.appendChild(li);
 
     option.addEventListener("click", (event) => {
       event.preventDefault();
+
+      if (answer === correct_answer) {
+        option.classList.add("correct_answer");
+        console.log("CORRECT!")
+      } else {
+        option.classList.add("wrong_answer");
+        greenLight.classList.add("correct_answer");
+        console.log("WRONG!")
+      }
 
       givenAnswers.push({ question: question, answer: answer });
       if (QUESTIONS.length === 0) {
@@ -197,9 +232,36 @@ function isQuiz(param = QUESTIONS) {
 
 function IsResult() {
   appcontainer.textContent = "";
+  let divResult = document.createElement("div");
+  divResult.classList.add("results");
   let titoloSection = document.createElement("h2");
+  let quizCompleted = document.createElement("p");
+  quizCompleted.textContent = "Quiz completato";
+  titoloSection.classList.add("resultsTitle");
   titoloSection.textContent = "result";
-  appcontainer.appendChild(titoloSection);
+  // isPassed indica promosso o bocciato in inglese
+  let isPassedContainer = document.createElement("div");
+  isPassedContainer.classList.add("passed");
+  let pIsPassed = document.createElement("p");
+  pIsPassed.textContent = "null";
+  let divGraph = document.createElement("div");
+  divGraph.classList.add("graph");
+  let percentage = document.createElement("span");
+  percentage.textContent = "100%";
+  let buttonRestart = document.createElement("button");
+  buttonRestart.classList.add("restart");
+  buttonRestart.textContent = "Ricomincia";
+  buttonRestart.addEventListener("click", () => {
+    window.location.reload();
+  });
+  appcontainer.appendChild(divResult);
+  divResult.appendChild(titoloSection);
+  divResult.appendChild(quizCompleted);
+  divResult.appendChild(percentage);
+  divResult.appendChild(isPassedContainer);
+  isPassedContainer.appendChild(pIsPassed);
+  divResult.appendChild(divGraph);
+  divResult.appendChild(buttonRestart);
 }
 
 function render() {

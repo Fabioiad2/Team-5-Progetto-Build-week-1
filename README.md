@@ -87,7 +87,7 @@ Albero del dom:
     <h2 class="question">
      <ul class="answers">
        <li class="correct wrong">
-       <button></button>
+       <button class="optionButton"></button>
        </li>
      </ul>
     </div>
@@ -116,4 +116,5 @@ Fabio Iadicicco
 Miriam Caridi
 Matteo Brucculeri
 Adriano Sant'Angelo
-Lisa Irene Sciacca 
+Lisa Irene Sciacca
+Charlie Cenni

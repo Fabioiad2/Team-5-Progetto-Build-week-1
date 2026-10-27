@@ -8,7 +8,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: /*#1b1535*/ url("/assets/bg.jpg") center / cover no-repeat fixed;
   color: #1b2845;
-  color: #3B1455;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -40,7 +39,7 @@ body {
 
 .welcome .title {
   text-align: center;
-  padding: 5px;
+  padding: 5px 5px 20px 5px;
   font-size: x-large;
 }
 
@@ -51,23 +50,22 @@ body {
 
 .welcome .intro span {
   text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.start, .restart{
-  border: 2px solid #3B1455  ;
+.start, .restart {
+  border: 2px solid #3B1455;
   border-radius: 12px;
   color: #3B1455;
   background-color: whitesmoke;
-  padding: 7px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 7px 15px; /* Scorciatoia per padding verticale e orizzontale */
   font-weight: bold;
-
-  /* centramento del bottone*/
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  
+  /* Proprietà per centrare il bottone */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
 }
 
 /* Quiz Render #6A2872*/
@@ -76,40 +74,49 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
   width: 100%;
+  margin-bottom: 50px;
 }
 
-.counter {
+#counter {
   color: #3B1455;
   font-size: small;
+  float: left;
 }
 
-.timer {
+#timer {
   color: #3B1455;
+  float: right;
 }
 
-.quiz ul li{
+.answer{
   list-style: none;
 }
 
 .question{
   font-weight: bold;
   
-
-
 }
 
-.questionnaire button{
+
+
+li .optionButton{
   border: 2px solid #3B1455;
   border-radius: 12px;
   color: #1b2845;
   background-color: whitesmoke;
   padding: 7px;
-  
+  width: 100%;
+  font-weight: 400;
 }
 
+li .correct{
+background-color: green;
+}
 
+li .wrong{
+background-color: red;  
+}
 
 /* Result Render */
 

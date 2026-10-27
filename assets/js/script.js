@@ -115,7 +115,7 @@ function isWelcome() {
   let paragraph = document.createElement("p");
   paragraph.classList.add("intro");
 
-  paragraph.textContent = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere.`;
+  paragraph.innerHTML = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere.`;
   let startButton = document.createElement("button");
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
@@ -143,7 +143,7 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.textContent = "";
   let divQuiz = document.createElement("div");
   divQuiz.classList.add("quiz");
-  // h2
+
 
   //COUNTER
   counterNum++;
@@ -198,32 +198,38 @@ function isQuiz(param = QUESTIONS) {
     const li = document.createElement("li");
     const option = document.createElement("button"); //opzioni come elementi di lisat cliccabili
     option.textContent = answer;
+    option.classList.add("optionButton"); //classe per CSS
 
     if (answer === correct_answer) {
-       greenLight = option;
+      greenLight = option;
     }
     li.appendChild(option);
     ul.appendChild(li);
 
+    //EVENT-LISTENER
     option.addEventListener("click", (event) => {
       event.preventDefault();
 
+      //CHECK RISPOSTA CORRETTA
       if (answer === correct_answer) {
-        option.classList.add("correct_answer");
-        console.log("CORRECT!")
+        option.classList.add("correct");
+        console.log("CORRECT!");
       } else {
-        option.classList.add("wrong_answer");
-        greenLight.classList.add("correct_answer");
-        console.log("WRONG!")
+        option.classList.add("wrong");
+        greenLight.classList.add("correct");
+        console.log("WRONG!");
       }
 
+      //ARRAY RISPOSTE
       givenAnswers.push({ question: question, answer: answer });
-      if (QUESTIONS.length === 0) {
-        currentScreen = "results";
-      }
 
-      a = TIMER_DURATION;
-      render();
+      setTimeout(() => {
+        if (QUESTIONS.length === 0) {
+          currentScreen = "results";
+        }
+        a = TIMER_DURATION;
+        render();
+      }, 2000);
 
       console.log(givenAnswers);
     });

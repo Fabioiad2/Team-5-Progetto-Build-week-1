@@ -343,7 +343,7 @@ function isResult() {
   table.appendChild(tbody);
   tbody.appendChild(tr);
 
-  //PARSER TRABELLA
+  //PARSER TABELLA
   givenAnswers.forEach(function(obj, i) {
     const row = document.createElement("tr");
 

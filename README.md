@@ -1,5 +1,5 @@
 
-# EPICODE - Piattaforma Quiz d'Esame &nbsp ![Logo Epicode](assets/epicode-logo1.png)
+# EPICODE - Piattaforma Quiz d'Esame    ![Logo Epicode](assets/epicode-logo1.png)
 
 ### Progetto realizzato dal team 5
 
@@ -12,12 +12,12 @@ Questa repository contiene il codice sorgente di un'applicazione web interattiva
 ## Indice
 - [Funzionalità](#funzionalità)
 - [Anteprima](#Anteprima)
-- [Tecnologie](#tecnologie)
+- [Tecnologie Utilizzate](#tecnologie-utilizzate)
 - [Come Eseguire il Progetto Locale](#come-eseguire-il-progetto-locale)
 - [Struttura del progetto](#struttura-del-progetto)
 - [Architettura](#Architettura)
 - [Come funziona](#come-funziona)
-- [Schermata di Benvenuto](#schermata-di-benvenuto)
+- [Schermata di Benvenuto](#1.-schermata-di-benvenuto)
 - [Sessione di Quiz Interattiva](#sessione-di-quiz-interattiva)
 - [Schermata dei Risultati](#schermata-dei-risultati)
 - [Regole del Quiz](#regole-del-quiz)

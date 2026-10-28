@@ -83,7 +83,7 @@ const QUESTIONS = [
 const TOTAL_QUESTIONS = QUESTIONS.length;
 const PASS_THRESHOLD = 60; // percentuale minima per "Promosso"
 const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
-const TIMER_DURATION = 5; // secondi per ogni question
+const TIMER_DURATION = 3; // secondi per ogni question
 
 /* Stato globale */
 let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
@@ -307,8 +307,8 @@ function isResult() {
   let isPassedContainer = document.createElement("div");
   let pIsPassed = document.createElement("p");
   let buttonRestart = document.createElement("button");
-  let percentage = document.createElement("span");
   let divGraph = document.createElement("div");
+  let percentage = document.createElement("span");
   let face = document.createElement('p')
   //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
@@ -335,7 +335,7 @@ function isResult() {
   const thSolutions = document.createElement('th');
   const tbody = document.createElement('tbody');
   const tr = document.createElement('tr');
-  const voidAnswersCount = document.createElement('p')
+
 
   thQuestions.textContent = 'Domande';
   thAnswers.textContent = 'Risposte';
@@ -343,7 +343,7 @@ function isResult() {
 
 
   divTable.appendChild(table);
-  divTable.classList.add('tableContainer')
+  divTable.classList.add('tableContainer');
   table.appendChild(thead);
   thead.appendChild(tr);
   tr.appendChild(thQuestions);
@@ -352,7 +352,7 @@ function isResult() {
 
   table.appendChild(tbody);
   tbody.appendChild(tr);
-  tr.appendChild(voidAnswersCount);
+
 
 
   //STRUTTURA
@@ -360,13 +360,12 @@ function isResult() {
   divResult.appendChild(face);
   divResult.appendChild(titoloSection);
   divResult.appendChild(quizCompleted);
-  divResult.appendChild(percentage);
+  divResult.appendChild(divGraph);
   divResult.appendChild(isPassedContainer);
   isPassedContainer.appendChild(pIsPassed);
-  divResult.appendChild(divGraph);
   divResult.appendChild(buttonRestart);
   divResult.appendChild(divTable);
-
+  divGraph.appendChild(percentage);
 
   //PARSER TABELLA
   givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
@@ -393,7 +392,7 @@ function isResult() {
   voidAnswers = givenAnswers.filter(obj => obj.answer === "");
   console.log(voidAnswers, "lista di domande saltate")
   console.log("vuote", voidAnswers.length)
-  voidAnswersCount.textContent = `risposte non date ${voidAnswers.length}`;
+
 
 
   //GRAFICO

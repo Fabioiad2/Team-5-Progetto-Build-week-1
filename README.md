@@ -243,32 +243,32 @@ Result
 <main id="app">
   <div class="results">
     <h2 class="resultsTitle">Risultati</h2>
-    <p>Hai completato il quiz.</p>
+    <p> Quiz completato!</p> 
+    <div id= "graph" class= "graph"> 
     <span class="percentage"></span>
-    <div class="passed" class="failed">
+    </div>
+    <div id= "isPassedContainer" class="passed" class="failed">
       <p>Promosso - Bocciato</p>
     </div>
-    <div id="graph">
-    </div>
-    <button class="restart">
+    <button class="restart"> Ricomincia </button>
   </div>
-  <div id="divTable">
+  <div class='tableContainer'>
     <table>
       <thead>
         <tr>
           <th>domanda</th>
-            <th>Risposta</th>
-            <th>Soluzione</th>
-            </tr>
-          </thead>
-            <tbody>
-              <tr>
-                <td>NomeDomanda</td>
-                <td>NomeRisposta</td>
-                <td>vero/falso</td>
-                </tr>
-            </tbody>
+          <th>Risposta</th>
+          <th>Soluzione</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>NomeDomanda</td>
+            <td>NomeRisposta</td>
+            <td>vero/falso</td>
+          </tr>
+      </tbody>
     </table>
-  <div>
+  </div>
 </main>
 </code>

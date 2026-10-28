@@ -4,6 +4,7 @@
   padding: 0;
 }
 
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background:
@@ -185,17 +186,19 @@ li .wrong:hover {
 }
 
 #isPassedContainer {
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .passed {
   background-color: #2d6a4f;
   color: whitesmoke;
+  margin-top: 3px;
 }
 
 .failed {
   background-color: #e63946;
   color: whitesmoke;
+  margin-top: 3px;
 }
 
 .passed,
@@ -222,6 +225,7 @@ li .wrong:hover {
   justify-content: center;
   margin: 0 auto;
   position: relative;
+  margin-top: 15px;
   /* Fondamentale per posizionare gli elementi interni */
 }
 
@@ -255,6 +259,7 @@ li .wrong:hover {
   border: 2px solid #3B1455;
   border-radius: 12px;
   border-spacing: 0;
+  background-color: rgba(235, 209, 238, 0.3);
 }
 
 .tableContainer table th {

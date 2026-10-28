@@ -1,5 +1,5 @@
 
-# EPICODE - Piattaforma Quiz d'Esame    ![Logo Epicode](assets/epicode-logo1.png)
+# EPICODE - Piattaforma Quiz d'Esame &nbsp ![Logo Epicode](assets/epicode-logo1.png)
 
 ### Progetto realizzato dal team 5
 

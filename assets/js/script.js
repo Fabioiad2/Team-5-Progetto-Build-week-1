@@ -94,6 +94,7 @@ let timerId = null;
 const appcontainer = document.querySelector("#app"); //main
 const givenAnswers = []; // arrai {domanda: , risposta:}
 const greenArray = [];  //array risposte corrette
+let voidAnswers = []; //array risposte vuote
 let counterNum = 0;   //numeratore counter
 let greenLight = null; //container opzione corretta
 let timerDiv = null; //div timer
@@ -120,13 +121,13 @@ function isWelcome() {
   let startButton = document.createElement("button");
 
   // DIAMO CONTENUTO
-  title.textContent = "Benvenuto al tuo esame";
+  title.textContent = "Benvenuto al tuo esame!";
   paragraph.classList.add("intro");
 
   // DIAMO ATTRIBUTI
   divWelcome.classList.add("welcome");
   title.classList.add("title");
-  paragraph.innerHTML = `Una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere. Il test dura circa 3 minuti.`;
+  paragraph.innerHTML = `Preparati ad affrontare il tuo esame. Ti verrà sottoposta una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere. Il test dura circa 3 minuti.`;
 
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
@@ -206,7 +207,7 @@ function isQuiz(param = QUESTIONS) {
   } = q; //destrutturo l'oggetto per richiamare le variabili
 
   let allAnswers = [correct_answer, ...z];
-  currentQuestion = question;
+  currentQuestion = q;
   h2.textContent = question;
 
   //OPZIONI CLICCABILI
@@ -290,6 +291,9 @@ function checkResult(percentuale, testo, contenitore) {
 
 function isResult() {
   appcontainer.textContent = "";
+  //KILL TIMER
+  clearInterval(timerId);
+
 
   //ELEMENTI
   let divResult = document.createElement("div");
@@ -300,6 +304,8 @@ function isResult() {
   let buttonRestart = document.createElement("button");
   let percentage = document.createElement("span");
   let divGraph = document.createElement("div");
+
+
 
   //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
@@ -325,15 +331,15 @@ function isResult() {
   const thSolutions = document.createElement('th');
   const tbody = document.createElement('tbody');
   const tr = document.createElement('tr');
+  const voidAnswersCount = document.createElement('p')
 
-  
   thQuestions.textContent = 'Domande';
   thAnswers.textContent = 'Risposte';
   thSolutions.textContent = 'Soluzione';
 
 
   divTable.appendChild(table);
-  divTable.classList('tableContainer')
+  divTable.classList.add('tableContainer')
   table.appendChild(thead);
   thead.appendChild(tr);
   tr.appendChild(thQuestions);
@@ -342,17 +348,20 @@ function isResult() {
 
   table.appendChild(tbody);
   tbody.appendChild(tr);
+  tr.appendChild(voidAnswersCount);
 
   //PARSER TABELLA
-  givenAnswers.forEach(function(obj, i) {
+  givenAnswers.forEach(function (obj, i) {
     const row = document.createElement("tr");
 
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
     const td3 = document.createElement("td");
-
+    let answer= obj.answer;
+    if (answer === "") { answer = "Nessuna risposta" };
+    
     td1.textContent = obj.question;
-    td2.textContent = obj.answer;
+    td2.textContent = answer;
     td3.textContent = greenArray[i];
 
     row.appendChild(td1);
@@ -360,7 +369,13 @@ function isResult() {
     row.appendChild(td3);
 
     tbody.appendChild(row);
-});
+  });
+
+  //FILTRO
+  voidAnswers = givenAnswers.filter(obj => obj.answer === "");
+  console.log(voidAnswers, "lista di domande saltate")
+  console.log("vuote", voidAnswers.length)
+  voidAnswersCount.textContent = `risposte non date ${voidAnswers.length}`;
 
   //STRUTTURA
   appcontainer.appendChild(divResult);
@@ -381,9 +396,7 @@ function isResult() {
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
   });
-
 }
-
 
 //RENDER
 function render() {
@@ -418,28 +431,25 @@ function timer() {
         button.disabled = true;
       });
     }
-    // da rivedere mercoledi credo che invece del && vada fatto prima un if su 'a' e poi question.lenght altrimenti le controlla sempre insieme e non possiamo azzerare a perchè la funzione scatta quando 'a' è già 0
-    if (QUESTIONS.length === 0) {
-      return a = 0
-    }
+
 
     //time-out ultima domanda
     if (a <= 0 && QUESTIONS.length === 0) {
-      clearInterval(timerId); // Interrompe l'intervallo
-      givenAnswers.push({ question: currentQuestion, answer: "" })
+      givenAnswers.push({ question: currentQuestion.question, answer: "" })
+      greenArray.push(currentQuestion.correct_answer);
       currentScreen = "results";
       console.log(QUESTIONS.length)
       console.log('sono nel primo if quindi non ci sono più domande') // non viene mostrato finchè il timer in result non scade
       a = 0;
       render();
-      clearInterval()
       return;
     }
     //time-out normale
-    else if (a == 0) {
+    else if (a === 0) {
       a = TIMER_DURATION;
       console.log('time azzerato')
-      givenAnswers.push({ question: currentQuestion, answer: "" })
+      givenAnswers.push({ question: currentQuestion.question, answer: "" })
+      greenArray.push(currentQuestion.correct_answer);
       console.log("else")
       render();
     }
@@ -450,3 +460,4 @@ function timer() {
 
   }, 1000);
 }
+

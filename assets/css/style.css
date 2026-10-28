@@ -34,7 +34,12 @@ body {
   padding: 40px;
   max-width: 720px;
   width: 100%;
+  min-height: 350px; /*dimensione della card minima da mostrare*/
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+#app .welcome {
+  margin-top: 50px;
 }
 
 /* Welcome Render */
@@ -110,7 +115,7 @@ body {
 
 .question {
   font-weight: bold;
-  margin-top: 40px;
+  margin-top: 55px;
   margin-bottom: 20px;
 }
 

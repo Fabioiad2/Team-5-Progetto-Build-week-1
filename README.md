@@ -15,14 +15,12 @@ Questa repository contiene il codice sorgente di un'applicazione web interattiva
 - [Tecnologie Utilizzate](#tecnologie-utilizzate)
 - [Come Eseguire il Progetto Locale](#come-eseguire-il-progetto-locale)
 - [Struttura del progetto](#struttura-del-progetto)
-- [Architettura](#Architettura)
+- [Architettura](#architettura)
 - [Come funziona](#come-funziona)
-- [Schermata di Benvenuto](#1.-schermata-di-benvenuto)
-- [Sessione di Quiz Interattiva](#sessione-di-quiz-interattiva)
-- [Schermata dei Risultati](#schermata-dei-risultati)
 - [Regole del Quiz](#regole-del-quiz)
 - [Convenzioni di codice](#convenzioni-di-codice)
 - [Il team 5 e il flusso di lavoro](#il-team-5-e-il-flusso-di-lavoro)
+- [Albero del dom](#albero-del-dom)
 
 ### Funzionalità
 
@@ -102,7 +100,7 @@ L'app segue il pattern **stato → render → eventi**:
 
 ---
 
-### Come funziona
+## Come funziona
 
 Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una proprietà domanda "question", una proprietà "correct-answer" contenente la risposta corretta e un array "incorrect_answers" contenente le risposte errate:
 
@@ -115,11 +113,11 @@ Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una pr
 }
 ```
 
-## 1. Schermata di Benvenuto
+### 1. Schermata di Benvenuto
 - Presentazione delle istruzioni di svolgimento dell'esame.
 - Pulsante **"Inizia"** per avviare la sessione di test.
 
-## 2. Sessione di Quiz Interattiva
+### 2. Sessione di Quiz Interattiva
 - **10 domande** casuali su argomenti di Informatica, Programmazione (Java, C++, CSS) e Cultura Tech.
 - **Timer a tempo residuo (20 secondi per domanda)** integrato in alto a destra.
 - Domande casuali a risposta multipla e *Vero/Falso*.
@@ -127,49 +125,49 @@ Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una pr
   - **Verde**: Risposta corretta.
   - **Rosso**: Risposta errata.
 
-### Timer 
+#### Timer 
 
 La funzione timer gestisce una serie di funzionalità:
 - mostra a schermo il tempo rimanente per rispondere alla domanda. Il tempo residuo viene mostrato in maniera decrescente da 20 a 1.
 - gestione di una classe interna che ne definisce lo stile. Quando all'utente mancano 5 secondi per rispondere il timer assume il colore rosso.
 - quando manca 1 secondo di tempo la funzione disabilita le opzioni cliccabili e gestisce una classe che fa assumere il colore verde alla risposta. Inoltre la funziona inserisce la risposta vuola, tramite il metodo push, nell'array givenAnswers e fa procedere il quiz alla domanda successiva.
 
-### Contatore
+#### Contatore
 
 La funzione counter aggiorna il numeratore counterNum a ogni click sulle risposte e mostra schermo la domanda corrente e il numero di domande totali. Raggiunta l'ultima domanda cambia lo stato in "results".
 
-### Domande in ordine casuale
+#### Domande in ordine casuale
 
 Dentro la funzione isQuiz un callBack a randomLength seleziona un indice casuale tramite la funzione randomLength che utilizza i metodi mathFloor e mathRandom, mostrarla a schermo. Rimuove e ritorna l'elemento con il metodo splice per non ripetere la domanda.
 
-### Risposte in ordine casuale
+#### Risposte in ordine casuale
 
 Un loop all'interno di isQuiz raggrupa le risposte in un array e poi itera in maniera casuale tramite la funziona sopra citata randomLength. Tramite il metodo splice rimuove la risposta selezionata e la inserisce nella lista visualizzata a schermo in modo da avere solo le iterazioni necessarie e sempre diverse.
 
-### Responso risposta
+#### Responso risposta
 
 Una condizione dentro la funzione isQuiz che si attiva al click in un opzione di risposta controlla se la risposta è corretta e da una classe specifica a seconda del risultato. Se la risposta è errata viene evidenziata anche la risposta corretta.
 
-## 3. Schermata dei Risultati
+### 3. Schermata dei Risultati
 - Calcolo automatico del punteggio percentuale.
 - Indicatore dell'esito dell'esame.
 - Grafico a torta per il conteggio dettagliato delle risposte corretto e/o errate.
 - Pulsante **"Ricomincia"** per resettare lo stato e riprovare il test.
 - Riepilogo delle domande e delle risposte selezionate nel corso del quiz.
 
-### Visualizzazione esito
+#### Visualizzazione esito
 
 Questà funzionalità viene gestita da più funzioni all'interno della funzione isResult:
-- la funzione calculatePercentage confronte le risposte conservate nell'array givenAnswers sotto la proprietà answers con quelle conservare nell'array di risposte corrette greenArray e fornisce la percentuale di corrispondenza che a sua volta viene confrontata con la costante PASS_THRESHOLD fornita dal cliente. Se la percentuale è maggiore del valore di PASS_THRESHOLD viene visualizzato il responso positivo con la scritta "Promosso", altrimenti "Bocciato".
+La funzione calculatePercentage confronte le risposte conservate nell'array givenAnswers sotto la proprietà answers con quelle conservare nell'array di risposte corrette greenArray e fornisce la percentuale di corrispondenza che a sua volta viene confrontata con la costante PASS_THRESHOLD fornita dal cliente. Se la percentuale è maggiore del valore di PASS_THRESHOLD viene visualizzato il responso positivo con la scritta "Promosso", altrimenti "Bocciato".
 
-### Renderizzazione tabella risposte
+#### Renderizzazione tabella risposte
 
 All'interno isResult viene generato lo scheletro della tabella con testo statico nel tHead. Tramite il metodo forEach, riempiano le sezioni della tabella in maniera dinamica in modo da visualizzare a schermo una riga per domanda con tre colonne corrispondenti a domanda, risposta dell'utente e risposta corretta. 
 
 Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava le proprietà sotto le chiavi "question" e "answer" per riempirne due, mentre il terzo td viene riempito grazie all'elemento in greenArray presente nello stesso indice. 
 
 
-## 4. Regole del Quiz
+### 4. Regole del Quiz
 
 1. Il test consiste in una serie di **10 domande** selezionate casualmente.
 2. Per ciascuna domanda si hanno a disposizione **20 secondi di tempo**.
@@ -177,7 +175,7 @@ Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava 
 4. Una volta cliccata l'opzione o scaduto il tempo, la risposta viene confermata e si passa alla domanda successiva.
 5. Il tempo stimato per completare il quiz è di circa 3 minuti.
 
-### Convenzioni di codice
+#### Convenzioni di codice
 
 - **camelCase** per tutte le variabili e **maiuscolo** per le costanti.
 - **Variabili, funzioni, costanti e chiavi degli oggetti in inglese**, con nomi intuitivi.

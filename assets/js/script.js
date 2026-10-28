@@ -83,10 +83,10 @@ const QUESTIONS = [
 const TOTAL_QUESTIONS = QUESTIONS.length;
 const PASS_THRESHOLD = 60; // percentuale minima per "Promosso"
 const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
-const TIMER_DURATION = 20; // secondi per ogni question
+const TIMER_DURATION = 5; // secondi per ogni question
 
 /* Stato globale */
-let currentScreen = "results"; // "welcome" | "quiz" | "results"
+let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
 let score = 0;
 let timerId = null;
 
@@ -265,7 +265,7 @@ function isQuiz(param = QUESTIONS) {
         }
         a = TIMER_DURATION;
         render();
-      }, 2000);
+      }, 1500);
 
     });
   }
@@ -287,6 +287,10 @@ function checkResult(percentuale, testo, contenitore) {
   const passed = (percentuale >= PASS_THRESHOLD); //60
   testo.textContent = passed ? "Promosso" : "Bocciato";
   contenitore.classList.add(passed ? "passed" : "failed");
+
+  // <i class="fa-regular fa-face-sad-cry"></i>
+  // <i class="fa-regular fa-face-smile"></i>
+  console.log("esito", passed)
 }
 
 
@@ -295,7 +299,6 @@ function isResult() {
   appcontainer.textContent = "";
   //KILL TIMER
   clearInterval(timerId);
-
 
   //ELEMENTI
   let divResult = document.createElement("div");
@@ -306,9 +309,7 @@ function isResult() {
   let buttonRestart = document.createElement("button");
   let percentage = document.createElement("span");
   let divGraph = document.createElement("div");
-
-
-
+  let face = document.createElement('p')
   //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
   titoloSection.textContent = "Risultati";
@@ -320,9 +321,10 @@ function isResult() {
   //CLASSI
   divResult.classList.add("results");
   titoloSection.classList.add("resultsTitle");
-  divGraph.classList.add("graph");
   buttonRestart.classList.add("restart");
   percentage.classList.add("percentage");
+
+
 
   // TABLE
   const divTable = document.createElement('div')
@@ -331,7 +333,7 @@ function isResult() {
   const thQuestions = document.createElement('th');
   const thAnswers = document.createElement('th');
   const thSolutions = document.createElement('th');
-  const tbody = document.createElement('tbody');  
+  const tbody = document.createElement('tbody');
   const tr = document.createElement('tr');
   const voidAnswersCount = document.createElement('p')
 
@@ -352,6 +354,20 @@ function isResult() {
   tbody.appendChild(tr);
   tr.appendChild(voidAnswersCount);
 
+
+  //STRUTTURA
+  appcontainer.appendChild(divResult);
+  divResult.appendChild(face);
+  divResult.appendChild(titoloSection);
+  divResult.appendChild(quizCompleted);
+  divResult.appendChild(percentage);
+  divResult.appendChild(isPassedContainer);
+  isPassedContainer.appendChild(pIsPassed);
+  divResult.appendChild(divGraph);
+  divResult.appendChild(buttonRestart);
+  divResult.appendChild(divTable);
+
+
   //PARSER TABELLA
   givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
     const row = document.createElement("tr");
@@ -359,9 +375,9 @@ function isResult() {
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
     const td3 = document.createElement("td");
-    let answer= obj.answer;
+    let answer = obj.answer;
     if (answer === "") { answer = "Nessuna risposta" };
-    
+
     td1.textContent = obj.question;
     td2.textContent = answer;
     td3.textContent = greenArray[i];
@@ -379,17 +395,22 @@ function isResult() {
   console.log("vuote", voidAnswers.length)
   voidAnswersCount.textContent = `risposte non date ${voidAnswers.length}`;
 
-  //STRUTTURA
-  appcontainer.appendChild(divResult);
-  divResult.appendChild(titoloSection);
-  divResult.appendChild(quizCompleted);
-  divResult.appendChild(percentage);
-  divResult.appendChild(isPassedContainer);
-  isPassedContainer.appendChild(pIsPassed);
-  divResult.appendChild(divGraph);
-  divResult.appendChild(buttonRestart);
-  divResult.appendChild(divTable);
 
+  //GRAFICO
+  divGraph.classList.add("graph");
+  divGraph.id = "graph";
+
+
+
+  const green = calculatePercentage();
+  const blue = voidAnswers.length * 10;
+  const red = 100 - green - blue;
+
+  divGraph.style.background = `conic-gradient(
+  #4caf50 0% ${green}%,
+  #f44336 ${green}% ${green + red}%,
+  #2196f3 ${green + red}% 100%
+)`;
 
   //CALLBACK >> checkResult
   checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
@@ -433,6 +454,7 @@ function timer() {
         button.disabled = true;
       });
     }
+
 
 
     //time-out ultima domanda

@@ -220,7 +220,42 @@ li .wrong:hover {
 }
 
 .graph {
- text-align: center; 
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(#4caf50 0% 80%, #f44336 80% 100%, #2196f3 0% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Il buco della ciambella al centro */
+.graph::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: whitesmoke; /* Sfondo bianco o del colore della card */
+  border-radius: 50%;
+}
+
+#divTable table{
+  border-radius: 12px;
+   border: 2px solid #3B1455;
+   margin-top: 15px;
+}
+
+#divTable table thead th{
+  font-size: larger;
+  color: #3B1455;
+
+}
+
+#divTable table tbody td{
+  padding: 10px;
+  border: 2px solid #3B1455;
+  background-color: whitesmoke;
 }
 
 /*

@@ -83,7 +83,7 @@ const QUESTIONS = [
 const TOTAL_QUESTIONS = QUESTIONS.length;
 const PASS_THRESHOLD = 60; // percentuale minima per "Promosso"
 const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
-const TIMER_DURATION = 3; // secondi per ogni question
+const TIMER_DURATION = 20; // secondi per ogni question
 
 /* Stato globale */
 let currentScreen = "welcome"; // "welcome" | "quiz" | "results"

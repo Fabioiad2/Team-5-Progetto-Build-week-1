@@ -316,6 +316,52 @@ function isResult() {
   buttonRestart.classList.add("restart");
   percentage.classList.add("percentage");
 
+  // TABLE
+  const divTable = document.createElement('div')
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const thQuestions = document.createElement('th');
+  const thAnswers = document.createElement('th');
+  const thSolutions = document.createElement('th');
+  const tbody = document.createElement('tbody');
+  const tr = document.createElement('tr');
+
+  
+  thQuestions.textContent = 'Domande';
+  thAnswers.textContent = 'Risposte';
+  thSolutions.textContent = 'Soluzione';
+
+
+  divTable.appendChild(table);
+  divTable.classList('tableContainer')
+  table.appendChild(thead);
+  thead.appendChild(tr);
+  tr.appendChild(thQuestions);
+  tr.appendChild(thAnswers);
+  tr.appendChild(thSolutions);
+
+  table.appendChild(tbody);
+  tbody.appendChild(tr);
+
+  //PARSER TRABELLA
+  givenAnswers.forEach(function(obj, i) {
+    const row = document.createElement("tr");
+
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    const td3 = document.createElement("td");
+
+    td1.textContent = obj.question;
+    td2.textContent = obj.answer;
+    td3.textContent = greenArray[i];
+
+    row.appendChild(td1);
+    row.appendChild(td2);
+    row.appendChild(td3);
+
+    tbody.appendChild(row);
+});
+
   //STRUTTURA
   appcontainer.appendChild(divResult);
   divResult.appendChild(titoloSection);
@@ -325,7 +371,7 @@ function isResult() {
   isPassedContainer.appendChild(pIsPassed);
   divResult.appendChild(divGraph);
   divResult.appendChild(buttonRestart);
-
+  divResult.appendChild(divTable);
 
 
   //CALLBACK >> checkResult
@@ -401,6 +447,6 @@ function timer() {
     timer20.textContent = a;
 
     console.log(a);
-    
+
   }, 1000);
 }

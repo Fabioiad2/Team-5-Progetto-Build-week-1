@@ -106,103 +106,26 @@ Verrano mostrate tutte le domande estratte durante il quiz con le relative rispo
     </div>
     <button class="restart">
   </div>
+  <div id="divTable">
+    <table>
+      <thead>
+        <tr>
+          <th>domanda</th>
+            <th>Risposta</th>
+            <th>Soluzione</th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr>
+                <td>NomeDomanda</td>
+                <td>NomeRisposta</td>
+                <td>vero/falso</td>
+                </tr>
+            </tbody>
+    </table>
+  <div>
 </main>
 </code>
-
-
-
-
-
-
-/*
-function IsResult() {
-  appcontainer.textContent = "";
-
-  let divResult = document.createElement("div");
-  divResult.classList.add("results");
-
-  let titoloSection = document.createElement("h2");
-  titoloSection.classList.add("resultsTitle");
-  titoloSection.textContent = "result";
-
-  //Calcolo della percentuale reale basata sulle risposte corrette 
-  
-  let correctCount = givenAnswers.filter(ans => ans.isCorrect).length; // va cambiato 
-  let totalCount = TOTAL_QUESTIONS
-  let calPerc = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
-  
-  let percentage = document.createElement("span");
-
-  percentage.textContent = `${calPerc}%`; Adri  
-
-   //ARRAY RISPOSTE DATE
-      givenAnswers.push({ question: question, answer: answer });
-      //ARRAY RISPOSTE CORRETTE
-      greenArray.push(correct_answer);
-
-  percentage.textContent = "100%"; Fabio placheholder 
- 
-  let isPassedContainer = document.createElement("div");
-  isPassedContainer.classList.add("passed");
-
-  let pIsPassed = document.createElement("p");
-  pIsPassed.textContent = "null";
-
-
-  let divGraph = document.createElement("div");
-  divGraph.classList.add("graph");
-
-
-  let quizCompleted = document.createElement("p");
-  quizCompleted.textContent = "Quiz completato";
-  
-  // isPassed indica promosso o bocciato in inglese
-  
-  
-  
-  let buttonRestart = document.createElement("button");
-  buttonRestart.classList.add("restart");
-  buttonRestart.textContent = "Ricomincia";
-  buttonRestart.addEventListener("click", () => {
-    window.location.reload();
-  });
-  appcontainer.appendChild(divResult);
-  divResult.appendChild(titoloSection);
-  divResult.appendChild(quizCompleted);
-  divResult.appendChild(percentage);
-  divResult.appendChild(isPassedContainer);
-  isPassedContainer.appendChild(pIsPassed);
-  divResult.appendChild(divGraph);
-  divResult.appendChild(buttonRestart);
-}
- 
-function checkResult(percentage, element){
-  if (percentage >= 60){
-element.textContent = "Superato"
-
-  }
-} 
-
-// creazione della tabella del resoconto 
-
-
-
-
-function calcolaPercentuale() {
-  if (givenAnswers.length === 0) return 0; // evita la divisione per zero
-
-  const corrette = givenAnswers.filter(
-    (risposta, i) => risposta.answer === greenArray[i]
-  ).length;
-
-  return (corrette / givenAnswers.length) * 100;
-}
-
-console.log(calcolaPercentuale()); 
-
-
-
-*/
 
 
 Progetto realizzato da:

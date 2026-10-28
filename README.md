@@ -1,5 +1,5 @@
 
-# EPICODE - Piattaforma Quiz d'Esame    ![Logo Epicode](assets/epicode-logo1.png)
+# EPICODE - Piattaforma Quiz d'Esame --- ![Logo Epicode](assets/epicode-logo1.png)
 
 ### Progetto realizzato dal team 5
 
@@ -91,8 +91,13 @@ L'app segue il pattern **stato → render → eventi**:
 3. **Eventi**:
 - All'inizializzazione currentScreen è dichiarata come "welcome".
 - Il bottone "start" cambia lo stato, avvia la funzione "timer" e chiama la funzione "render".
-- Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili.
-Nel momento in cui un opzione viene cliccata: disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta; evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta; salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente; salva anche le risposte corrette in un secondo array "greenArray"; ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda; completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
+- Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili. Nel momento in cui un opzione viene cliccata:
+  - Disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta;
+  - Evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta;
+  - Salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente;
+  - Salva anche le risposte corrette in un secondo array "greenArray";
+  - Ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda;
+  - Completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
 - Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella e la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
 
 ---
@@ -174,8 +179,8 @@ Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava 
 
 ### Convenzioni di codice
 
-- **camelCase** .
-- **Variabili, funzioni, costanti e chiavi degli oggetti in inglese**, con nomi che dicono a cosa servono. // da modificare.
+- **camelCase** per tutte le variabili e **maiuscolo** per le costanti.
+- **Variabili, funzioni, costanti e chiavi degli oggetti in inglese**, con nomi intuitivi.
 - **Commenti che favoriscono la comprensione del codice**.
 - Solo `const` e `let`, mai `var`.
 - `querySelector` / `querySelectorAll` per il DOM.
@@ -199,8 +204,12 @@ Il team lavora nel seguente modo:
 - **Una sola persona** gestisce la repository, branch, merge e pull request con il supporto del team.
 - La repository del progetto è presente sul profilo git di chi gestisce Git.
 
-<code>Albero del dom:
-### WELCOME
+## Albero del dom
+
+```html
+
+Welcome
+
 <main id="app">
   <div class="welcome">
     <h2 class="title">
@@ -209,7 +218,8 @@ Il team lavora nel seguente modo:
   </div>
 </main>
 
-### QUIZ
+Quiz
+
 <main id="app">
   <div class="quiz">
     <div class="container">
@@ -230,7 +240,8 @@ Il team lavora nel seguente modo:
   </div>
 </main>
 
-### RESULT
+Result
+
 <main id="app">
   <div class="results">
     <h2 class="resultsTitle">Risultati</h2>

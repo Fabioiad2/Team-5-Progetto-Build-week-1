@@ -86,7 +86,7 @@ const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
 const TIMER_DURATION = 20; // secondi per ogni question
 
 /* Stato globale */
-let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
+let currentScreen = "results"; // "welcome" | "quiz" | "results"
 let score = 0;
 let timerId = null;
 
@@ -331,7 +331,7 @@ function isResult() {
   const thQuestions = document.createElement('th');
   const thAnswers = document.createElement('th');
   const thSolutions = document.createElement('th');
-  const tbody = document.createElement('tbody');
+  const tbody = document.createElement('tbody');  
   const tr = document.createElement('tr');
   const voidAnswersCount = document.createElement('p')
 
@@ -353,7 +353,7 @@ function isResult() {
   tr.appendChild(voidAnswersCount);
 
   //PARSER TABELLA
-  givenAnswers.forEach(function (obj, i) {
+  givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
     const row = document.createElement("tr");
 
     const td1 = document.createElement("td");

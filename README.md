@@ -86,43 +86,29 @@ _Screenshot in arrivo._
 
 L'app segue il pattern **stato → render → eventi**:
 
-1. **Stato**: .
-2. **Render**: Il timer gestisce il render. (callback di isQuiz) greenArray
-3. **Eventi**: .
-
-Una variabile di stato indica quale vista mostrare: benvenuto, quiz o risultati. //da modificare
-
-<!-- TODO [Lisa]: da compilare insieme al team 
-
-RENDERING
-il rendering viene gestito in modo condizionale con uno switch in base al nostro stato globale currentscreen 
-per cambiare la sezione renderizzato dobbiamo riassegnare lo stato globale e richiamare la funzione render()
-
--->
+1. **Stato**: La variabile "currentScreen" gestiste lo stato dell'applicazione.
+2. **Render**: La funzione Render utilizza la condizione switch per renderizzare a seconda dello stato. Lo stato può assumere tre valori: "welcome", "quiz" e "results".
+3. **Eventi**:
+- All'inizializzazione currentScreen è dichiarata come "welcome".
+- Il bottone "start" cambia lo stato, avvia la funzione "timer" e chiama la funzione "render".
+- Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili.
+Nel momento in cui un opzione viene cliccata: disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta; evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta; salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente; salva anche le risposte corrette in un secondo array "greenArray"; ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda; completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
+- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella e la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
 
 ---
 
 ### Come funziona
 
-Le domande sono oggetti in un array. Ogni oggetto ha, oltre a testo e risposte, un `id` e un `timer` (in secondi). Struttura prevista, **nomi da confermare**:
+Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una proprietà domanda "question", una proprietà "correct-answer" contenente la risposta corretta e un array "incorrect_answers" contenente le risposte errate:
 
 ```js
 {
-  id: 1,
-  domanda: "Cosa significa l'acronimo CPU?",
-  rispostaCorretta: "Central Processing Unit",
-  risposteSbagliate: ["Central Process Unit", "Computer Personal Unit", "Central Processor Unit"],
-  timer: 20,
+ question:
+      "In Java, quale keyword si usa per impedire che una variabile venga modificata?",
+    correct_answer: "final",
+    incorrect_answers: ["static", "private", "public"],
 }
 ```
-
-<!-- TODO [da modificare insieme al team] -->
-
-Array di domande.
-  Ogni question è un object con:
-   - question: testo della question
-   - correct_answer: la risposta corretta (string)
-   - incorrect_answers: array di risposte sbagliate (string[])
 
 ## 1. Schermata di Benvenuto
 - Presentazione delle istruzioni di svolgimento dell'esame.

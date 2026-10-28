@@ -113,6 +113,7 @@ let currentQuestion = null;
    - advance() per andare alla question successiva o ai risultati
 */
 
+//FUNCTION isWELCOME
 function isWelcome() {
   //ELEMENTI
   let divWelcome = document.createElement("div");
@@ -153,7 +154,7 @@ function randomLength(a) {
   return Math.floor(Math.random() * a.length); //return un intero a caso da 0 a lenght
 }
 
-
+//FUNCTION isQUIZ
 function isQuiz(param = QUESTIONS) {
   appcontainer.textContent = "";
 
@@ -289,6 +290,7 @@ function checkResult(percentuale, testo, contenitore) {
 }
 
 
+//FUNCTION isRESULT
 function isResult() {
   appcontainer.textContent = "";
   //KILL TIMER

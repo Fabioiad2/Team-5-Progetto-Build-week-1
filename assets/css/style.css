@@ -62,15 +62,14 @@ body {
   text-underline-offset: 4px;
 }
 
-.start,
-.restart, .displayQ {
+.start {
   border: 2px solid #3B1455;
   border-radius: 12px;
   color: #3B1455;
   background-color: whitesmoke;
   padding: 7px 15px;
-  /* Scorciatoia per padding verticale e orizzontale */
   font-weight: bold;
+  width: 180px;
 
   /* Proprietà per centrare il bottone */
   display: block;
@@ -187,6 +186,7 @@ li .wrong:hover {
 
 #isPassedContainer {
   margin-top: 20px;
+  display: inline-block;
 }
 
 .passed {
@@ -213,6 +213,25 @@ li .wrong:hover {
   margin-top: 15px;
   margin-bottom: 15px;
   text-align: center;
+  
+}
+
+.passed p::after{
+  content: "☺";
+  display: inline-block;
+  font-size: 25px; 
+}
+
+.failed p::after{
+  content: "☹";
+  display: inline-block;
+}
+
+.start:hover,
+.restart:hover,
+.optionButton:hover,
+.displayQ:hover {
+  background-color: rgba(235, 209, 238, 0.8);
 }
 
 .graph {
@@ -254,6 +273,97 @@ li .wrong:hover {
   text-align: center;
 }
 
+.graph>.easterEgg {
+  background: url("/assets/gatto1.jpg");
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.easterEggP {
+  z-index: 3;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Centra la lista e rimuove i pallini di default */
+.legend {
+  text-align: center;
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.legend li {
+  display: inline-block;
+  margin-right: 15px; 
+}
+
+.legend li div {
+  display: inline-block;
+  width: 10px;        
+  height: 10px;         
+  margin-right: 6px;
+  vertical-align: middle;/* Allinea verticalmente il pallino rispetto al testo */
+}
+
+.legend li p {
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.colorRed {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border: 1px solid rgb(117, 117, 117);
+  border-radius: 50%;
+
+}
+
+.colorGreen {
+  height: 10px;
+  width: 10px;
+  background-color: green;
+  border: 1px solid rgb(117, 117, 117);
+  border-radius: 50%;
+}
+
+.colorGray {
+  height: 10px;
+  width: 10px;
+  background-color: grey;
+  border: 1px solid rgb(117, 117, 117);
+  border-radius: 50%;
+}
+
+.buttonsResult {
+  width: 500px;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.restart,
+.displayQ {
+  border: 2px solid #3B1455;
+  border-radius: 12px;
+  color: #3B1455;
+  background-color: whitesmoke;
+  padding: 7px 15px;
+  font-weight: bold;
+  width: 180px;
+  margin: 10px;
+
+  /* Proprietà per centrare il bottone 
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;*/
+}
+
 .tableContainer table {
   margin-top: 20px;
   border: 2px solid #3B1455;
@@ -273,7 +383,6 @@ li .wrong:hover {
   border-top: 2px solid #3B1455;
 }
 
-.tableContainer table.hide{
+.tableContainer table.hide {
   display: none;
 }
-

@@ -83,7 +83,7 @@ const QUESTIONS = [
 const TOTAL_QUESTIONS = QUESTIONS.length;
 const PASS_THRESHOLD = 60; // percentuale minima per "Promosso"
 const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
-const TIMER_DURATION = 20; // secondi per ogni question
+const TIMER_DURATION = 1; // secondi per ogni question
 
 /* Stato globale */
 let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
@@ -174,7 +174,7 @@ function isQuiz(param = QUESTIONS) {
   timer20 = document.createElement("p")
   timerDiv = document.createElement("div");
   timerDiv.id = "timer";
-  timer20.textContent = 20;
+  timer20.textContent = TIMER_DURATION;
   timerDiv.appendChild(timer20);
   appcontainer.appendChild(timerDiv);
 
@@ -273,25 +273,22 @@ function isQuiz(param = QUESTIONS) {
 
 //PERCENTUALE
 function calculatePercentage() {
-  if (givenAnswers.length === 0) return 0; // evita la divisione per zero
+  if (givenAnswers.length === 0) return 0;
 
   const corrects = givenAnswers.filter(
     (obj, i) => obj.answer === greenArray[i]
   ).length;
 
-  return (corrects / givenAnswers.length) * 100;
+  return Math.round((corrects / givenAnswers.length) * 100);
 }
 
 //CHECK-RESULT
 function checkResult(percentuale, testo, contenitore) {
   const passed = (percentuale >= PASS_THRESHOLD); //60
-  testo.textContent = passed ? "Promosso" : "Bocciato";
+  testo.textContent = passed ? "Promosso " : "Bocciato ";
   contenitore.classList.add(passed ? "passed" : "failed");
-
-  // <i class="fa-regular fa-face-sad-cry"></i>
-  // <i class="fa-regular fa-face-smile"></i>
-  console.log("esito", passed)
 }
+
 
 
 //FUNCTION isRESULT
@@ -310,6 +307,7 @@ function isResult() {
   let buttonVisible = document.createElement("button");
   let divGraph = document.createElement("div");
   let percentage = document.createElement("span");
+
 
   //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
@@ -355,18 +353,68 @@ function isResult() {
   table.appendChild(tbody);
   tbody.appendChild(tr);
 
+  //FILTRO
+  voidAnswers = givenAnswers.filter(obj => obj.answer === "");
+  console.log(voidAnswers, "lista di domande saltate")
+  console.log("vuote (voidAnswers)", voidAnswers.length)
+
+
+
+  //LEGENDA
+  const article = document.createElement("article");
+  const legend = document.createElement('ul');
+  legend.classList.add('legend');
+  article.appendChild(legend);
+  const li1 = document.createElement("li");
+  const li2 = document.createElement("li");
+  const li3 = document.createElement("li");
+  const div1 = document.createElement("div");
+  const div2 = document.createElement("div");
+  const div3 = document.createElement("div");
+  const p1 = document.createElement("p");
+  const p2 = document.createElement("p");
+  const p3 = document.createElement("p");
+  const containerResultButton = document.createElement('div')
+  containerResultButton.classList.add('buttonsResult')
+
+  p1.textContent = "Corrette";
+  p2.textContent = "Errate";
+  p3.textContent = "Nulle";
+  div1.classList.add("colorGreen");
+  div2.classList.add("colorRed");
+  div3.classList.add("colorGray");
+
+
+  legend.appendChild(li1);
+  legend.appendChild(li2);
+  legend.appendChild(li3);
+  li1.appendChild(div1);
+  li1.appendChild(p1);
+  li2.appendChild(div2);
+  li2.appendChild(p2);
+  li3.appendChild(div3);
+  li3.appendChild(p3);
+
+
 
   //STRUTTURA
   appcontainer.appendChild(divResult);
-  divResult.appendChild(titoloSection);
-  divResult.appendChild(quizCompleted);
-  divResult.appendChild(divGraph);
-  divResult.appendChild(isPassedContainer);
+  divResult.appendChild(titoloSection);     //titolo
+  divResult.appendChild(quizCompleted);     //promosso-bocciato
+  divResult.appendChild(divGraph);          //grafico
+  if (voidAnswers.length === TOTAL_QUESTIONS) 
+    { divResult.appendChild(easterEgg()[1])}   //testo EE
+  divResult.appendChild(article);           //legenda
+  divResult.appendChild(isPassedContainer); //
   isPassedContainer.appendChild(pIsPassed);
-  divResult.appendChild(buttonRestart);
-  divResult.appendChild(buttonVisible);
+  divResult.appendChild(containerResultButton);
+  containerResultButton.appendChild(buttonRestart);
+  containerResultButton.appendChild(buttonVisible);
   divResult.appendChild(divTable);
   divGraph.appendChild(percentage);
+
+  if (voidAnswers.length === TOTAL_QUESTIONS) 
+    {divGraph.appendChild(easterEgg()[0])}
 
   //PARSER TABELLA
   givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
@@ -389,18 +437,10 @@ function isResult() {
     tbody.appendChild(row);
   });
 
-  //FILTRO
-  voidAnswers = givenAnswers.filter(obj => obj.answer === "");
-  console.log(voidAnswers, "lista di domande saltate")
-  console.log("vuote", voidAnswers.length)
-
-
 
   //GRAFICO
   divGraph.classList.add("graph");
   divGraph.id = "graph";
-
-
 
   const green = calculatePercentage();
   const blue = voidAnswers.length * 10;
@@ -409,7 +449,7 @@ function isResult() {
   divGraph.style.background = `conic-gradient(
   #4caf50 0% ${green}%,
   #f44336 ${green}% ${green + red}%,
-  #2196f3 ${green + red}% 100%
+  #D3D3D3 ${green + red}% 100%
 )`;
 
   //CALLBACK >> checkResult
@@ -497,3 +537,16 @@ function timer() {
   }, 1000);
 }
 
+// EASTER EGG
+function easterEgg() {
+
+  console.log("bruh");
+  const eggBasket = document.createElement("div");
+  const p = document.createElement("p");
+  eggBasket.classList.add("easterEgg");
+  p.classList.add("easterEggP");
+  p.textContent = "Perché non hai risposto a nessuna domanda? :("
+  return [eggBasket, p]
+
+
+} 

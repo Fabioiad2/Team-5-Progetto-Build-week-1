@@ -17,7 +17,6 @@ Questa repository contiene il codice sorgente di un'applicazione web interattiva
 - [Struttura del progetto](#struttura-del-progetto)
 - [Architettura](#architettura)
 - [Come funziona](#come-funziona)
-- [Regole del Quiz](#regole-del-quiz)
 - [Convenzioni di codice](#convenzioni-di-codice)
 - [Il team 5 e il flusso di lavoro](#il-team-5-e-il-flusso-di-lavoro)
 - [Albero del dom](#albero-del-dom)
@@ -90,13 +89,13 @@ L'app segue il pattern **stato → render → eventi**:
 - All'inizializzazione currentScreen è dichiarata come "welcome".
 - Il bottone "start" cambia lo stato, avvia la funzione "timer" e chiama la funzione "render".
 - Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili. Nel momento in cui un opzione viene cliccata:
-  - Disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta;
-  - Evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta;
-  - Salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente;
-  - Salva anche le risposte corrette in un secondo array "greenArray";
-  - Ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda;
-  - Completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
-- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella e la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
+- Disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta;
+- Evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta;
+- Salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente;
+- Salva anche le risposte corrette in un secondo array "greenArray";
+- Ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda;
+- Completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
+- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella e a schermo è presente il bottone "Visualizza" che permette di visualizzare la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
 
 ---
 
@@ -151,20 +150,21 @@ Una condizione dentro la funzione isQuiz che si attiva al click in un opzione di
 ### 3. Schermata dei Risultati
 - Calcolo automatico del punteggio percentuale.
 - Indicatore dell'esito dell'esame.
-- Grafico a torta per il conteggio dettagliato delle risposte corretto e/o errate.
+- Grafico a torta per il conteggio dettagliato delle risposte corrette, errate e nulla.
 - Pulsante **"Ricomincia"** per resettare lo stato e riprovare il test.
-- Riepilogo delle domande e delle risposte selezionate nel corso del quiz.
+- Pulsante **"Visualizza risposte"** che mostra a schermo il riepilogo delle domande e delle risposte selezionate nel corso del quiz.
 
 #### Visualizzazione esito
 
 Questà funzionalità viene gestita da più funzioni all'interno della funzione isResult:
-La funzione calculatePercentage confronte le risposte conservate nell'array givenAnswers sotto la proprietà answers con quelle conservare nell'array di risposte corrette greenArray e fornisce la percentuale di corrispondenza che a sua volta viene confrontata con la costante PASS_THRESHOLD fornita dal cliente. Se la percentuale è maggiore del valore di PASS_THRESHOLD viene visualizzato il responso positivo con la scritta "Promosso", altrimenti "Bocciato".
+La funzione calculatePercentage confronte le risposte nell'array givenAnswers, conservate sotto la proprietà answers, con quelle conservare nell'array di risposte corrette greenArray per fornire la percentuale di corrispondenza arrotondata all'intero più vicino. 
+Questa viene a sua volta confrontata con la costante PASS_THRESHOLD fornita dal cliente. Se la percentuale è maggiore del valore di PASS_THRESHOLD viene visualizzato il responso positivo con la scritta "Promosso", altrimenti "Bocciato".
 
 #### Renderizzazione tabella risposte
 
-All'interno isResult viene generato lo scheletro della tabella con testo statico nel tHead. Tramite il metodo forEach, riempiano le sezioni della tabella in maniera dinamica in modo da visualizzare a schermo una riga per domanda con tre colonne corrispondenti a domanda, risposta dell'utente e risposta corretta. 
+All'interno isResult viene generato lo scheletro della tabella con testo statico nel thead. Tramite il metodo forEach, riempiano le sezioni della tabella in maniera dinamica in modo da visualizzare a schermo una riga per domanda con tre colonne corrispondenti a domanda, risposta dell'utente e risposta corretta.
 
-Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava le proprietà sotto le chiavi "question" e "answer" per riempirne due, mentre il terzo td viene riempito grazie all'elemento in greenArray presente nello stesso indice. 
+Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava le proprietà sotto le chiavi "question" e "answer" per riempirne due, mentre il terzo td viene riempito grazie all'elemento in greenArray presente nello stesso indice. La tabella è resa visibile al click del bottone sopracitato.
 
 
 ### 4. Regole del Quiz
@@ -174,6 +174,12 @@ Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava 
 3. È possibile selezionare **una sola risposta** per ciascun quesito.
 4. Una volta cliccata l'opzione o scaduto il tempo, la risposta viene confermata e si passa alla domanda successiva.
 5. Il tempo stimato per completare il quiz è di circa 3 minuti.
+
+### Aspetto grafico
+
+L'applicazione si presenta con un'interfaccia moderna con sfondo scuro sfumato in viola e il logo **EPICODE** in alto. Al centro si trova un riquadro bianco fumo con angoli arrotondati che mostra il messaggio di benvenuto, le regole dell'esame e il pulsante **"Inizia"** per avviare il quiz.
+Una volta avviato il quiz la schermata mantiene lo stesso stile grafico. All'interno del riquadro mostra la domanda corrente, un timer rettangolare con i secondi rimanenti che si colora di rosso quando il tempo sta per scadere per mettere premura all'utente e dei pulsanti per le opzioni per le risposte disposti in verticale. Le risposte corrette vengono visualizzate di colore rosso e quelle giusta di colore verde in maniera intuitiva.
+
 
 #### Convenzioni di codice
 
@@ -205,71 +211,74 @@ Il team lavora nel seguente modo:
 ## Albero del dom
 
 ```html
-
-Welcome
-
+<!-- Welcome -->
 <main id="app">
   <div class="welcome">
-    <h2 class="title">
-    <p class="intro"><span>20 secondi</span></p>
-    <button class= 'start'></button>
+    <h2 class="title">Benvenuto al tuo esame!</h2>
+    <p class="intro">...<span>20 secondi</span>...</p>
+    <button class="start">Inizia</button>
   </div>
 </main>
 
-Quiz
-
+<!-- Quiz -->
 <main id="app">
-  <div class="quiz">
-    <div class="container">
-      <div id="counter">
-      </div>
-      <div id="timer" class="warning">
-      </div>
-      <p></p>
-    </div>
-   <div class="questionnaire"> 
-    <h2 class="question">
-     <ul class="answers">
-       <li class="correct wrong">
-       <button class="optionButton"></button>
-       </li>
-     </ul>
-    </div>
+  <div class="container">
+    <div id="counter">Domanda: X su 10</div>
+  </div>
+  <div id="timer">
+    <p>20</p>
+  </div>
+  <h2 class="question">Testo Domanda</h2>
+  <div class="questionnaire">
+    <ul class="answers">
+      <li>
+        <button class="optionButton (correct|wrong)">Risposta</button>
+      </li>
+    </ul>
   </div>
 </main>
 
-Result
-
+<!-- Result -->
 <main id="app">
   <div class="results">
     <h2 class="resultsTitle">Risultati</h2>
-    <p> Quiz completato!</p> 
-    <div id= "graph" class= "graph"> 
-    <span class="percentage"></span>
+    <p>Quiz completato!</p>
+    <div id="graph" class="graph">
+      <span class="percentage">XX%</span>
     </div>
-    <div id= "isPassedContainer" class="passed" class="failed">
-      <p>Promosso - Bocciato</p>
+    <article>
+      <ul class="legend">
+        <li><div class="colorGreen"></div><p>Corrette</p></li>
+        <li><div class="colorRed"></div><p>Errate</p></li>
+        <li><div class="colorGray"></div><p>Nulle</p></li>
+      </ul>
+    </article>
+    <div id="isPassedContainer" class="passed|failed">
+      <p>Promosso / Bocciato</p>
     </div>
-    <button class="restart"> Ricomincia </button>
-    <button class= "displayQ"> Visualizza tabella </button>
-  </div>
-  <div class='tableContainer' class ='hide'>
-    <table>
-      <thead>
-        <tr>
-          <th>domanda</th>
-          <th>Risposta</th>
-          <th>Soluzione</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="buttonsResult">
+      <button class="restart">Ricomincia</button>
+      <button class="displayQ">Visualizza risposte</button>
+    </div>
+    <div class="tableContainer">
+      <table class="hide">
+        <thead>
           <tr>
-            <td>NomeDomanda</td>
-            <td>NomeRisposta</td>
-            <td>vero/falso</td>
+            <th>Domande</th>
+            <th>Risposte</th>
+            <th>Soluzione</th>
           </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+    <div class="easterEgg">
+      img
+    </div>
   </div>
 </main>
-</code>

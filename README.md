@@ -184,6 +184,7 @@ L'app segue il pattern **stato → render → eventi**:
     <div class="easterEgg"></div>
   </div>
 </main>
+```
 
 ## Come funziona
 

@@ -133,7 +133,7 @@ L'app segue il pattern **stato → render → eventi**:
     </ul>
     <div class= "buttonQ">
       <button class="skip">Salta</button>
-      <button class="restart">Salta</button> 
+      <button class="restartQ">Salta</button> 
     </div>
     <div class= "divDot"> 
       <div class= "purple"> </div>

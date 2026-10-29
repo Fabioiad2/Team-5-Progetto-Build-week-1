@@ -176,14 +176,14 @@ li .wrong:hover {
   float: right;
 }
 
-.buttonQ {
-  width: 100%;
+.button.Q {
+  margin-top: 50px;
 }
 
 .divDot {
   width: 60%;
   display: block;
-  margin: 0 auto;
+  margin: 10px auto;
   text-align: center;
 }
 

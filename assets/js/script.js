@@ -78,7 +78,7 @@ const QUESTIONS = [
     incorrect_answers: ["Python", "C", "Jakarta"],
   },
 ];
-let c = [...QUESTIONS]
+let copyQuestions = [...QUESTIONS]
 
 /* Costanti del quiz */
 const TOTAL_QUESTIONS = QUESTIONS.length;
@@ -193,8 +193,7 @@ function isQuiz(param = QUESTIONS) {
   divDot.classList.add('divDot');
 
 
-
-  c.forEach((obj, index) => {
+  copyQuestions.forEach((obj, index) => {
     let dot = document.createElement("div");
     dot.classList.add('dot');
 
@@ -204,8 +203,6 @@ function isQuiz(param = QUESTIONS) {
 
     divDot.append(dot);
   });
-
-
 
   //CLASSI
   divQ.classList.add("questionnaire");
@@ -217,7 +214,7 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.appendChild(h2);
   appcontainer.appendChild(divQ);
   divQ.appendChild(ul);
-  divQ.appendChild(divDot);
+  // divQ.appendChild(divDot);
 
   //LOGICA
   let i = randomLength(param);
@@ -289,6 +286,7 @@ function isQuiz(param = QUESTIONS) {
 
   //SALTA LA DOMANDA
   btnSkip.classList.add("skip");
+
   buttonQ.appendChild(btnSkip);
   btnSkip.addEventListener("click", (event) => {
     givenAnswers.push({ question: currentQuestion.question, answer: "" });
@@ -314,6 +312,7 @@ function isQuiz(param = QUESTIONS) {
     window.location.reload();
   });
   divQ.appendChild(buttonQ);
+  divQ.appendChild(divDot);
 
 }
 

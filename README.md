@@ -71,15 +71,23 @@ L'applicazione ha un'interfaccia moderna e reattiva con uno stile visivo curato 
 
 ```text
 .
-├── index.html                 pagina unica con il contenitore #app
+├── index.html                pagina unica con il contenitore #app
 ├── README.md
 └── assets/
-    ├── bg.jpg                 sfondo
-    ├── epicode-logo.png       logo
     ├── css/
-    │   └── style.css          stile
+    │   └── style.css         stile
+    ├── img/
+        ├── bg.jpg            sfondo
+        ├── epicode-logo.png  logo epicode
+        ├── epicode-logo1.png logo epicode piccolo
+        ├── gatti1.jpg        foto gatto simpatico
+        ├── quiz.png          screenshot del quiz
+        ├── resul1.png        screenshot dei risultati
+        ├── resul2.png        screenshot della lista
+        ├── resul3.png        screenshot del risultato simpatico
+        └── welcome.png       screenshot della pagina di benvenuto
     └── js/
-         └── script.js         pagina che contiene tutte le funzionalità
+         └── script.js        pagina che contiene tutte le funzionalità
 
 ```
 

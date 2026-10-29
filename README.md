@@ -269,7 +269,7 @@ Una volta avviato il quiz la schermata mantiene lo stesso stile grafico. All'int
 Quando il quiz finisce la schermata mostra a schermo l'esito. Un grafico a ciambella mostra quante domande selezionate sono corrette, errate e/o nulle. Il grafico è accompagnato da una breve leggenda che ne rende il contenuto più chiaro. L'esito è rafforzato da un numero percentuale delle risposte corrette e la scritta "Promosso/Bocciato" con una simpatica faccina a fianco. Premendo sui bottoni sottostanti è possibile vedere riavviare il quiz e mostrare a schermo una tabella con al suo interno le domande con le risposte selezionate dall'utente e le risposte corrette.
 
 
-#### Convenzioni di codice
+### Convenzioni di codice
 
 - **camelCase** per tutte le variabili e **maiuscolo** per le costanti.
 - **Variabili, funzioni, costanti e chiavi degli oggetti in inglese**, con nomi intuitivi.

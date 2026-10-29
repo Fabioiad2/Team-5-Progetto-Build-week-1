@@ -41,7 +41,12 @@ L'applicazione ha un'interfaccia moderna e reattiva con uno stile visivo curato 
 
 ## Anteprima
 
-_Screenshot in arrivo._
+[Welcome](assets/welcome.jpg)
+[Quiz](assets/quiz.jpg)
+[Result1](assets/result1.jpg)
+[Result2](assets/result2.jpg)
+[Result3](assets/result3.jpg)
+
 
 ## Tecnologie Utilizzate
 
@@ -88,16 +93,96 @@ L'app segue il pattern **stato → render → eventi**:
 3. **Eventi**:
 - All'inizializzazione currentScreen è dichiarata come "welcome".
 - Il bottone "start" cambia lo stato, avvia la funzione "timer" e chiama la funzione "render".
-- Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili. Nel momento in cui un opzione viene cliccata:
+- Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili, un bottone "skip" che permette di saltare la domanda e un bottone "restart" che fa ricominciare il quiz. Nel momento in cui una risposta viene cliccata:
 - Disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta;
 - Evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta;
 - Salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente;
 - Salva anche le risposte corrette in un secondo array "greenArray";
 - Ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda;
 - Completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
-- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella e a schermo è presente il bottone "Visualizza" che permette di visualizzare la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
+- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella ed a schermo è presente il bottone "Visualizza" che permette di visualizzare la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
 
 ---
+
+## Albero del dom
+
+```html
+<!-- Welcome -->
+<main id="app">
+  <div class="welcome">
+    <h2 class="title">Benvenuto al tuo esame!</h2>
+    <p class="intro">...<span>20 secondi</span>...</p>
+    <button class="start">Inizia</button>
+  </div>
+</main>
+
+<!-- Quiz -->
+<main id="app">
+  <div class="container">
+    <div id="counter">Domanda: X su 10</div>
+  </div>
+  <div id="timer">
+    <p>20</p>
+  </div>
+  <h2 class="question">Testo Domanda</h2>
+  <div class="questionnaire">
+    <ul class="answers">
+      <li>
+        <button class="optionButton (correct|wrong)">Risposta</button>
+      </li>
+    </ul>
+    <div class= "buttonQ">
+      <button class="skip">Salta</button>
+      <button class="restart">Salta</button> 
+    </div>
+    <div class= "divDot"> 
+      <div class= "purple"> </div>
+    </div>
+  </div>
+</main>
+
+<!-- Result -->
+<main id="app">
+  <div class="results">
+    <h2 class="resultsTitle">Risultati</h2>
+    <p>Quiz completato!</p>
+    <div id="graph" class="graph">
+      <span class="percentage">XX%</span>
+    </div>
+    <article>
+      <ul class="legend">
+        <li><div class="colorGreen"></div><p>Corrette</p></li>
+        <li><div class="colorRed"></div><p>Errate</p></li>
+        <li><div class="colorGray"></div><p>Nulle</p></li>
+      </ul>
+    </article>
+    <div id="isPassedContainer" class="passed|failed">
+      <p>Promosso / Bocciato</p>
+    </div>
+    <div class="buttonsResult">
+      <button class="restart">Ricomincia</button>
+      <button class="displayQ">Visualizza risposte</button>
+    </div>
+    <div class="tableContainer">
+      <table class="hide">
+        <thead>
+          <tr>
+            <th>Domande</th>
+            <th>Risposte</th>
+            <th>Soluzione</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+          </tr>
+        </tbody>
+      </table>
+    <div class="easterEgg"></div>
+  </div>
+</main>
 
 ## Come funziona
 
@@ -117,7 +202,7 @@ Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una pr
 - Pulsante **"Inizia"** per avviare la sessione di test.
 
 ### 2. Sessione di Quiz Interattiva
-- **10 domande** casuali su argomenti di Informatica, Programmazione (Java, C++, CSS) e Cultura Tech.
+- **10 domande** casuali su argomenti di Informatica, Programmazione e Cultura Tech.
 - **Timer a tempo residuo (20 secondi per domanda)** integrato in alto a destra.
 - Domande casuali a risposta multipla e *Vero/Falso*.
 - Feedback visivo immediato alla sezione della risposta:
@@ -177,8 +262,9 @@ Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava 
 
 ### Aspetto grafico
 
-L'applicazione si presenta con un'interfaccia moderna con sfondo scuro sfumato in viola e il logo **EPICODE** in alto. Al centro si trova un riquadro bianco fumo con angoli arrotondati che mostra il messaggio di benvenuto, le regole dell'esame e il pulsante **"Inizia"** per avviare il quiz.
-Una volta avviato il quiz la schermata mantiene lo stesso stile grafico. All'interno del riquadro mostra la domanda corrente, un timer rettangolare con i secondi rimanenti che si colora di rosso quando il tempo sta per scadere per mettere premura all'utente e dei pulsanti per le opzioni per le risposte disposti in verticale. Le risposte corrette vengono visualizzate di colore rosso e quelle giusta di colore verde in maniera intuitiva.
+L'applicazione si presenta con un'interfaccia moderna con sfondo scuro sfumato in viola e il logo **EPICODE** in alto. Al centro si trova un riquadro bianco fumo con angoli arrotondati che mostra il messaggio di benvenuto, le regole dell'esame e il pulsante **"Inizia"** per avviare il quiz. Tutti i pulsanti hanno un effetto hover. Quando ci passi sopra si colora di viola chiaro e il cursore diventa un puntatore.
+Una volta avviato il quiz la schermata mantiene lo stesso stile grafico. All'interno del riquadro mostra la domanda corrente, un timer rettangolare con i secondi rimanenti che si colora di rosso quando il tempo sta per scadere per mettere premura all'utente, dei pulsanti per le opzioni per le risposte disposte in verticale e dei pallini che si colorano ad uno ad uno dopo aver risposto a una domanda. Le risposte corrette vengono visualizzate di colore rosso e quelle giusta di colore verde in maniera intuitiva.
+Quando il quiz finisce la schermata mostra a schermo l'esito. Un grafico a ciambella mostra quante domande selezionate sono corrette, errate e/o nulle. Il grafico è accompagnato da una breve leggenda che ne rende il contenuto più chiaro. L'esito è rafforzato da un numero percentuale delle risposte corrette e la scritta "Promosso/Bocciato" con una simpatica faccina a fianco. Premendo sui bottoni sottostanti è possibile vedere riavviare il quiz e mostrare a schermo una tabella con al suo interno le domande con le risposte selezionate dall'utente e le risposte corrette.
 
 
 #### Convenzioni di codice
@@ -207,78 +293,3 @@ Il team lavora nel seguente modo:
 - **Live Share** In base alle necessità del momento un membro del team ha fatto da host e ha lavorato insieme agli altri sul codice in contemporanea.
 - **Una sola persona** gestisce la repository, branch, merge e pull request con il supporto del team.
 - La repository del progetto è presente sul profilo git di chi gestisce Git.
-
-## Albero del dom
-
-```html
-<!-- Welcome -->
-<main id="app">
-  <div class="welcome">
-    <h2 class="title">Benvenuto al tuo esame!</h2>
-    <p class="intro">...<span>20 secondi</span>...</p>
-    <button class="start">Inizia</button>
-  </div>
-</main>
-
-<!-- Quiz -->
-<main id="app">
-  <div class="container">
-    <div id="counter">Domanda: X su 10</div>
-  </div>
-  <div id="timer">
-    <p>20</p>
-  </div>
-  <h2 class="question">Testo Domanda</h2>
-  <div class="questionnaire">
-    <ul class="answers">
-      <li>
-        <button class="optionButton (correct|wrong)">Risposta</button>
-      </li>
-    </ul>
-  </div>
-</main>
-
-<!-- Result -->
-<main id="app">
-  <div class="results">
-    <h2 class="resultsTitle">Risultati</h2>
-    <p>Quiz completato!</p>
-    <div id="graph" class="graph">
-      <span class="percentage">XX%</span>
-    </div>
-    <article>
-      <ul class="legend">
-        <li><div class="colorGreen"></div><p>Corrette</p></li>
-        <li><div class="colorRed"></div><p>Errate</p></li>
-        <li><div class="colorGray"></div><p>Nulle</p></li>
-      </ul>
-    </article>
-    <div id="isPassedContainer" class="passed|failed">
-      <p>Promosso / Bocciato</p>
-    </div>
-    <div class="buttonsResult">
-      <button class="restart">Ricomincia</button>
-      <button class="displayQ">Visualizza risposte</button>
-    </div>
-    <div class="tableContainer">
-      <table class="hide">
-        <thead>
-          <tr>
-            <th>Domande</th>
-            <th>Risposte</th>
-            <th>Soluzione</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-          </tr>
-        </tbody>
-      </table>
-    <div class="easterEgg">
-      img
-    </div>
-  </div>
-</main>

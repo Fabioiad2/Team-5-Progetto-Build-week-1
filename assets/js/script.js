@@ -78,6 +78,7 @@ const QUESTIONS = [
     incorrect_answers: ["Python", "C", "Jakarta"],
   },
 ];
+let c = [...QUESTIONS]
 
 /* Costanti del quiz */
 const TOTAL_QUESTIONS = QUESTIONS.length;
@@ -128,7 +129,7 @@ function isWelcome() {
   // DIAMO ATTRIBUTI
   divWelcome.classList.add("welcome");
   title.classList.add("title");
-  paragraph.innerHTML = `Preparati ad affrontare il tuo esame. Ti verrà sottoposta una serie di dieci domande sul mondo dell'informatica e del web. Per ogni domanda hai <span> 20 secondi </span> di tempo per rispondere. Il test dura circa 3 minuti.`;
+  paragraph.innerHTML = `Questa sfida è pensata per valutare la tua preparazione nel vasto mondo dell'informatica, dello sviluppo web e delle nuove tecnologie. La prova consiste in 10 domande dinamiche: per rispondere a ciascuna domanda avrai esattamente <span> 20 secondi,</span> quindi mantieni alta la concentrazione! Ricorda che ogni scelta è definitiva e il tempo scorre velocemente. L'esperienza complessiva richiederà solo 3 minuti del tuo tempo. Metti alla prova quello che hai imparato, dimostra il tuo valore e scopri subito il tuo punteggio finale. Troverai dei tasti che ti permottono di saltare la domanda o di ricominciare il quiz. Prendi un respiro profondo e fai clic su Inizia quando sei pronto!`;
 
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
@@ -183,8 +184,28 @@ function isQuiz(param = QUESTIONS) {
   let divQ = document.createElement("div");
   const btnSkip = document.createElement("button");
   btnSkip.textContent = "Salta";
+  btnSkip.classList.add('skip');
   const btnRestartQuiz = document.createElement("button");
   btnRestartQuiz.textContent = "Ricomincia";
+  btnRestartQuiz.classList.add("restartQ");
+  const buttonQ = document.createElement('div');
+  let divDot = document.createElement("div");
+  divDot.classList.add('divDot');
+
+
+
+  c.forEach((obj, index) => {
+    let dot = document.createElement("div");
+    dot.classList.add('dot');
+
+    if (index < counterNum) {
+      dot.classList.add("purple");
+    }
+
+    divDot.append(dot);
+  });
+
+
 
   //CLASSI
   divQ.classList.add("questionnaire");
@@ -196,6 +217,7 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.appendChild(h2);
   appcontainer.appendChild(divQ);
   divQ.appendChild(ul);
+  divQ.appendChild(divDot);
 
   //LOGICA
   let i = randomLength(param);
@@ -266,8 +288,8 @@ function isQuiz(param = QUESTIONS) {
   }
 
   //SALTA LA DOMANDA
-  btnSkip.classList.add("skip")
-  divQ.appendChild(btnSkip);
+  btnSkip.classList.add("skip");
+  buttonQ.appendChild(btnSkip);
   btnSkip.addEventListener("click", (event) => {
     givenAnswers.push({ question: currentQuestion.question, answer: "" });
     greenArray.push(correct_answer);
@@ -284,14 +306,16 @@ function isQuiz(param = QUESTIONS) {
     render();
   });
 
+
   //RICOMINCIA QUANDO VUOI
   btnRestartQuiz.classList.add("restartFromQuiz")
-  divQ.appendChild(btnRestartQuiz);
+  buttonQ.appendChild(btnRestartQuiz);
   btnRestartQuiz.addEventListener("click", () => {
     window.location.reload();
   });
-}
+  divQ.appendChild(buttonQ);
 
+}
 
 //PERCENTUALE
 function calculatePercentage() {
@@ -424,7 +448,7 @@ function isResult() {
   divResult.appendChild(titoloSection);     //titolo
   divResult.appendChild(quizCompleted);     //promosso-bocciato
   divResult.appendChild(divGraph);          //grafico
-  if (voidAnswers.length === TOTAL_QUESTIONS) { divResult.appendChild(easterEgg()[1]) }   //testo EE
+  if (voidAnswers.length === TOTAL_QUESTIONS) { divResult.appendChild(easterEgg()[1]) };   //testo EE
   divResult.appendChild(article);           //legenda
   divResult.appendChild(isPassedContainer); //
   isPassedContainer.appendChild(pIsPassed);
@@ -434,7 +458,7 @@ function isResult() {
   divResult.appendChild(divTable);
   divGraph.appendChild(percentage);
 
-  if (voidAnswers.length === TOTAL_QUESTIONS) { divGraph.appendChild(easterEgg()[0]) }
+  if (voidAnswers.length === TOTAL_QUESTIONS) { divGraph.appendChild(easterEgg()[0]) };
 
   //PARSER TABELLA
   givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
@@ -551,22 +575,15 @@ function timer() {
     }
 
     timer20.textContent = a;
-
-    console.log(a);
-
   }, 1000);
 }
 
 // EASTER EGG
 function easterEgg() {
-
-  console.log("bruh");
   const eggBasket = document.createElement("div");
   const p = document.createElement("p");
   eggBasket.classList.add("easterEgg");
   p.classList.add("easterEggP");
   p.textContent = "Perché non hai risposto a nessuna domanda? :("
   return [eggBasket, p]
-
-
 } 

@@ -42,11 +42,11 @@ L'applicazione ha un'interfaccia moderna e reattiva con uno stile visivo curato 
 
 ## Anteprima
 
-[Welcome](assets/welcome.jpg)
-[Quiz](assets/quiz.jpg)
-[Result1](assets/result1.jpg)
-[Result2](assets/result2.jpg)
-[Result3](assets/result3.jpg)
+- [Pagina di benvenuto](assets/img/welcome.jpg)
+- [Quiz](assets/img/quiz.jpg)
+- [Risultati](assets/img/result1.jpg)
+- [Lista domande](assets/img/result2.jpg)
+- [Risultato simpatico](assets/img/result3.jpg)
 
 
 ## Tecnologie Utilizzate

@@ -16,10 +16,11 @@ Questa repository contiene il codice sorgente di un'applicazione web interattiva
 - [Come Eseguire il Progetto Locale](#come-eseguire-il-progetto-locale)
 - [Struttura del progetto](#struttura-del-progetto)
 - [Architettura](#architettura)
+- [Albero del dom](#albero-del-dom)
 - [Come funziona](#come-funziona)
 - [Convenzioni di codice](#convenzioni-di-codice)
 - [Il team 5 e il flusso di lavoro](#il-team-5-e-il-flusso-di-lavoro)
-- [Albero del dom](#albero-del-dom)
+
 
 ### Funzionalità
 

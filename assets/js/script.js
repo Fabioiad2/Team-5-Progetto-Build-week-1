@@ -191,19 +191,29 @@ function isQuiz(param = QUESTIONS) {
   const buttonQ = document.createElement('div');
   let divDot = document.createElement("div");
   divDot.classList.add('divDot');
+  let dotArray = [];
 
-
-  copyQuestions.forEach((obj, index) => {
+  //PROGRESS DOT
+  copyQuestions.forEach(() => {
     let dot = document.createElement("div");
     dot.classList.add('dot');
-
-    if (index < counterNum) {
-      dot.classList.add("purple");
-    }
-
     divDot.append(dot);
+    dotArray.push(dot);
   });
 
+   //Array di indici risposte vuote
+  const purpleIndexes = givenAnswers
+    .map((obj, index) => (obj.answer === "" ? -1 : index)) //ritorna l'indice di ogni obj.answer:string e ritorna come -1 quelle vuoti Es[0, -1, 2, 3, -1]
+    .filter(index => index !== -1); //ritorna l'array senza i -1
+
+  dotArray.forEach((dot, i) => {
+    if (purpleIndexes.includes(i)) {
+      dot.classList.add("purple")
+    }
+    else { dot.classList.add("void") }
+  })
+  console.log("purpleIndexes", purpleIndexes);
+  
   //CLASSI
   divQ.classList.add("questionnaire");
   h2.classList.add("question");
@@ -439,6 +449,9 @@ function isResult() {
   li2.appendChild(p2);
   li3.appendChild(div3);
   li3.appendChild(p3);
+
+
+
 
 
 

@@ -202,6 +202,10 @@ li .wrong:hover {
   background-color: #702975;
 }
 
+.void {
+  background-color: whitesmoke;
+}
+
 /* Result Render */
 
 .resultsTitle {

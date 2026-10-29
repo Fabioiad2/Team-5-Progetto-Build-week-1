@@ -251,8 +251,9 @@ Result
       <p>Promosso - Bocciato</p>
     </div>
     <button class="restart"> Ricomincia </button>
+    <button class= "displayQ"> Visualizza tabella </button>
   </div>
-  <div class='tableContainer'>
+  <div class='tableContainer' class ='hide'>
     <table>
       <thead>
         <tr>

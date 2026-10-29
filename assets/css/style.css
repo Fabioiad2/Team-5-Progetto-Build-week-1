@@ -63,7 +63,7 @@ body {
 }
 
 .start,
-.restart {
+.restart, .displayQ {
   border: 2px solid #3B1455;
   border-radius: 12px;
   color: #3B1455;
@@ -272,3 +272,8 @@ li .wrong:hover {
   padding: 10px;
   border-top: 2px solid #3B1455;
 }
+
+.tableContainer table.hide{
+  display: none;
+}
+

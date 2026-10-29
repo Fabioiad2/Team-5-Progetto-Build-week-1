@@ -307,15 +307,17 @@ function isResult() {
   let isPassedContainer = document.createElement("div");
   let pIsPassed = document.createElement("p");
   let buttonRestart = document.createElement("button");
+  let buttonVisible = document.createElement("button");
   let divGraph = document.createElement("div");
   let percentage = document.createElement("span");
-  let face = document.createElement('p')
+
   //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
   titoloSection.textContent = "Risultati";
   isPassedContainer.id = "isPassedContainer";
   pIsPassed.textContent = "null";
   buttonRestart.textContent = "Ricomincia";
+  buttonVisible.textContent = "Visualizza risposte";
   percentage.textContent = `${calculatePercentage()}%`;
 
   //CLASSI
@@ -323,8 +325,7 @@ function isResult() {
   titoloSection.classList.add("resultsTitle");
   buttonRestart.classList.add("restart");
   percentage.classList.add("percentage");
-
-
+  buttonVisible.classList.add("displayQ");
 
   // TABLE
   const divTable = document.createElement('div')
@@ -335,6 +336,7 @@ function isResult() {
   const thSolutions = document.createElement('th');
   const tbody = document.createElement('tbody');
   const tr = document.createElement('tr');
+  table.classList.add('hide');
 
 
   thQuestions.textContent = 'Domande';
@@ -354,16 +356,15 @@ function isResult() {
   tbody.appendChild(tr);
 
 
-
   //STRUTTURA
   appcontainer.appendChild(divResult);
-  divResult.appendChild(face);
   divResult.appendChild(titoloSection);
   divResult.appendChild(quizCompleted);
   divResult.appendChild(divGraph);
   divResult.appendChild(isPassedContainer);
   isPassedContainer.appendChild(pIsPassed);
   divResult.appendChild(buttonRestart);
+  divResult.appendChild(buttonVisible);
   divResult.appendChild(divTable);
   divGraph.appendChild(percentage);
 
@@ -415,6 +416,18 @@ function isResult() {
   checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
 
   //EVENT-LISTENER
+
+  buttonVisible.addEventListener("click", (e) => {
+    table.classList.toggle('hide');
+
+    if (table.classList.contains('hide')) {
+      buttonVisible.textContent = "Visualizza risposte";
+    } else {
+      buttonVisible.textContent = "Nascondi risposte";
+    }
+  });
+
+
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
   });

@@ -83,7 +83,7 @@ const QUESTIONS = [
 const TOTAL_QUESTIONS = QUESTIONS.length;
 const PASS_THRESHOLD = 60; // percentuale minima per "Promosso"
 const FEEDBACK_DELAY = 1500; // ms di attesa dopo risposta prima di avanzare
-const TIMER_DURATION = 1; // secondi per ogni question
+const TIMER_DURATION = 20; // secondi per ogni question
 
 /* Stato globale */
 let currentScreen = "welcome"; // "welcome" | "quiz" | "results"
@@ -158,7 +158,6 @@ function randomLength(a) {
 function isQuiz(param = QUESTIONS) {
   appcontainer.textContent = "";
 
-
   //COUNTER
   counterNum++;
   let container = document.createElement("div");
@@ -169,9 +168,8 @@ function isQuiz(param = QUESTIONS) {
   container.appendChild(counterDiv);
   counterDiv.textContent = `Domanda: ${counterNum} su ${TOTAL_QUESTIONS}`;
 
-
   //TIMER
-  timer20 = document.createElement("p")
+  timer20 = document.createElement("p");
   timerDiv = document.createElement("div");
   timerDiv.id = "timer";
   timer20.textContent = TIMER_DURATION;
@@ -183,8 +181,10 @@ function isQuiz(param = QUESTIONS) {
   let h2 = document.createElement("h2");
   let ul = document.createElement("ul");
   let divQ = document.createElement("div");
-
-
+  const btnSkip = document.createElement("button");
+  btnSkip.textContent = "Salta";
+  const btnRestartQuiz = document.createElement("button");
+  btnRestartQuiz.textContent = "Ricomincia";
 
   //CLASSI
   divQ.classList.add("questionnaire");
@@ -196,7 +196,6 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.appendChild(h2);
   appcontainer.appendChild(divQ);
   divQ.appendChild(ul);
-
 
   //LOGICA
   let i = randomLength(param);
@@ -232,13 +231,11 @@ function isQuiz(param = QUESTIONS) {
     option.addEventListener("click", (event) => {
       event.preventDefault();
 
-
       //DISABILITA-BOTTONI
-      const buttons = document.querySelectorAll('.optionButton');
+      const buttons = document.querySelectorAll("div.questionnaire button");
       buttons.forEach((button) => {
         button.disabled = true;
       });
-
 
       //CHECK RISPOSTA CORRETTA
       if (answer === correct_answer) {
@@ -249,7 +246,6 @@ function isQuiz(param = QUESTIONS) {
         greenLight.classList.add("correct");
         console.log("WRONG!");
       }
-
 
       //ARRAY RISPOSTE DATE + ARRAY RISPOSTE CORRETTE
       givenAnswers.push({ question: question, answer: answer });
@@ -266,10 +262,36 @@ function isQuiz(param = QUESTIONS) {
         a = TIMER_DURATION;
         render();
       }, 1500);
-
     });
   }
+
+  //SALTA LA DOMANDA
+  btnSkip.classList.add("skip")
+  divQ.appendChild(btnSkip);
+  btnSkip.addEventListener("click", (event) => {
+    givenAnswers.push({ question: currentQuestion.question, answer: "" });
+    greenArray.push(correct_answer);
+
+    console.log(givenAnswers);
+    console.log(greenArray);
+
+    a = TIMER_DURATION;
+
+    if (QUESTIONS.length === 0) {
+      currentScreen = "results";
+    }
+
+    render();
+  });
+
+  //RICOMINCIA QUANDO VUOI
+  btnRestartQuiz.classList.add("restartFromQuiz")
+  divQ.appendChild(btnRestartQuiz);
+  btnRestartQuiz.addEventListener("click", () => {
+    window.location.reload();
+  });
 }
+
 
 //PERCENTUALE
 function calculatePercentage() {
@@ -402,8 +424,7 @@ function isResult() {
   divResult.appendChild(titoloSection);     //titolo
   divResult.appendChild(quizCompleted);     //promosso-bocciato
   divResult.appendChild(divGraph);          //grafico
-  if (voidAnswers.length === TOTAL_QUESTIONS) 
-    { divResult.appendChild(easterEgg()[1])}   //testo EE
+  if (voidAnswers.length === TOTAL_QUESTIONS) { divResult.appendChild(easterEgg()[1]) }   //testo EE
   divResult.appendChild(article);           //legenda
   divResult.appendChild(isPassedContainer); //
   isPassedContainer.appendChild(pIsPassed);
@@ -413,8 +434,7 @@ function isResult() {
   divResult.appendChild(divTable);
   divGraph.appendChild(percentage);
 
-  if (voidAnswers.length === TOTAL_QUESTIONS) 
-    {divGraph.appendChild(easterEgg()[0])}
+  if (voidAnswers.length === TOTAL_QUESTIONS) { divGraph.appendChild(easterEgg()[0]) }
 
   //PARSER TABELLA
   givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}

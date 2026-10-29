@@ -267,7 +267,7 @@ li .wrong:hover {
   position: relative;
   /* Lo porta sopra al ::before */
   z-index: 2;
-  /* Deve essere più alto del ::before per essere cliccabile e visibile */
+  /* Deve essere più alto del ::before per essere visibile */
   font-size: xx-large;
   font-weight: bold;
   text-align: center;

@@ -78,7 +78,7 @@ const QUESTIONS = [
     incorrect_answers: ["Python", "C", "Jakarta"],
   },
 ];
-let copyQuestions = [...QUESTIONS]
+let copyQuestions = [...QUESTIONS];
 
 /* Costanti del quiz */
 const TOTAL_QUESTIONS = QUESTIONS.length;
@@ -94,9 +94,9 @@ let timerId = null;
 //VAR & CONST
 const appcontainer = document.querySelector("#app"); //main
 const givenAnswers = []; // arrai {domanda: , risposta:}
-const greenArray = [];  //array risposte corrette
+const greenArray = []; //array risposte corrette
 let voidAnswers = []; //array risposte vuote
-let counterNum = 0;   //numeratore counter
+let counterNum = 0; //numeratore counter
 let greenLight = null; //container opzione corretta
 let timerDiv = null; //div timer
 let timer20 = null; //p timer
@@ -134,7 +134,7 @@ function isWelcome() {
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
 
-  //EVENT-LISTENER 
+  //EVENT-LISTENER
   startButton.addEventListener("click", () => {
     console.log(currentScreen, "stato prima");
     currentScreen = "quiz";
@@ -157,11 +157,11 @@ function randomLength(a) {
 
 //FUNCTION isQUIZ
 function isQuiz(param = QUESTIONS) {
-  appcontainer.textContent = ""; 
+  appcontainer.textContent = "";
 
   //COUNTER
   counterNum++;
-  let container = document.createElement("div"); 
+  let container = document.createElement("div");
   let counterDiv = document.createElement("div");
   counterDiv.id = "counter"; // id per CSS <<-------------------------
   container.classList = "container";
@@ -184,41 +184,39 @@ function isQuiz(param = QUESTIONS) {
   let divQ = document.createElement("div");
   const btnSkip = document.createElement("button");
   btnSkip.textContent = "Salta";
-  btnSkip.classList.add('skip');
+  btnSkip.classList.add("skip");
   const btnRestartQuiz = document.createElement("button");
   btnRestartQuiz.textContent = "Ricomincia";
   btnRestartQuiz.classList.add("restartQ");
-  const buttonQ = document.createElement('div');
+  const buttonQ = document.createElement("div");
 
-  
-  // Creiamo un div per la barra a pallini 
+  // Creiamo un div per la barra a pallini
   let divDot = document.createElement("div");
-  divDot.classList.add('divDot');
+  divDot.classList.add("divDot");
   let dotArray = []; //array vuoto dei punti
-
 
   //Array contenente solo gli indici delle domande a cui è stata data una risposta
   const purpleIndexes = givenAnswers
     .map((obj, index) => (obj.answer === "" ? -1 : index)) //controlla ogni risposta: se è vuota restituisce -1, altrimenti restituisce il suo indice, Es. [0, -1, 2, 3, -1]
-    .filter(index => index !== -1); // elimina tutti i -1, mantenendo solo gli indici delle risposte date, Es. [0, 2, 3]
+    .filter((index) => index !== -1); // elimina tutti i -1, mantenendo solo gli indici delle risposte date, Es. [0, 2, 3]
 
-// Genera un dot per ogni domanda presente nell'array copyQuestions
+  // Genera un dot per ogni domanda presente nell'array copyQuestions
   copyQuestions.forEach(() => {
     let dot = document.createElement("div");
-    dot.classList.add('dot');
+    dot.classList.add("dot");
     divDot.append(dot);
     dotArray.push(dot);
   });
 
-
   dotArray.forEach((dot, i) => {
     if (purpleIndexes.includes(i)) {
-      dot.classList.add("purple")
+      dot.classList.add("purple");
+    } else {
+      dot.classList.add("void");
     }
-    else { dot.classList.add("void") }
-  })
+  });
   console.log("purpleIndexes", purpleIndexes);
-  
+
   //CLASSI
   divQ.classList.add("questionnaire");
   h2.classList.add("question");
@@ -230,7 +228,7 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.appendChild(divQ);
   divQ.appendChild(ul);
 
-  //LOGICA 
+  //LOGICA
   let i = randomLength(param);
   [currentQuestion] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
   const {
@@ -240,7 +238,7 @@ function isQuiz(param = QUESTIONS) {
   } = currentQuestion; //destrutturo l'oggetto per richiamare le variabili
 
   let allAnswers = [correct_answer, ...z];
- 
+
   h2.textContent = question;
 
   //OPZIONI CLICCABILI
@@ -300,34 +298,32 @@ function isQuiz(param = QUESTIONS) {
 
   //SALTA LA DOMANDA
   btnSkip.classList.add("skip");
-
   buttonQ.appendChild(btnSkip);
   btnSkip.addEventListener("click", (event) => {
     givenAnswers.push({ question: currentQuestion.question, answer: "" });
     greenArray.push(correct_answer);
-
+    greenLight.classList.add("correct");
     console.log(givenAnswers);
     console.log(greenArray);
 
-    a = TIMER_DURATION;
-
-    if (QUESTIONS.length === 0) {
-      currentScreen = "results";
-    }
-
-    render();
+     
+      setTimeout(() => {
+        if (QUESTIONS.length === 0) {
+          currentScreen = "results";
+        }
+        a = TIMER_DURATION;
+        render();
+      }, 1500);
   });
 
-
   //RICOMINCIA QUANDO VUOI IN QUIZ
-  btnRestartQuiz.classList.add("restartFromQuiz")
+  btnRestartQuiz.classList.add("restartFromQuiz");
   buttonQ.appendChild(btnRestartQuiz);
   btnRestartQuiz.addEventListener("click", () => {
     window.location.reload();
   });
   divQ.appendChild(buttonQ);
   divQ.appendChild(divDot);
-
 }
 
 //PERCENTUALE
@@ -335,7 +331,7 @@ function calculatePercentage() {
   if (givenAnswers.length === 0) return 0;
 
   const corrects = givenAnswers.filter(
-    (obj, i) => obj.answer === greenArray[i]
+    (obj, i) => obj.answer === greenArray[i],
   ).length;
 
   return Math.round((corrects / givenAnswers.length) * 100); // arrotonda la percentuale
@@ -343,12 +339,10 @@ function calculatePercentage() {
 
 //CHECK-RESULT
 function checkResult(percentuale, testo, contenitore) {
-  const passed = (percentuale >= PASS_THRESHOLD); //60
+  const passed = percentuale >= PASS_THRESHOLD; //60
   testo.textContent = passed ? "Promosso " : "Bocciato ";
   contenitore.classList.add(passed ? "passed" : "failed");
 }
-
-
 
 //FUNCTION isRESULT
 function isResult() {
@@ -367,7 +361,6 @@ function isResult() {
   let divGraph = document.createElement("div");
   let percentage = document.createElement("span");
 
-
   //CONTENUTI
   quizCompleted.textContent = "Quiz completato!";
   titoloSection.textContent = "Risultati";
@@ -385,24 +378,22 @@ function isResult() {
   buttonVisible.classList.add("displayQ");
 
   // TABLE
-  const divTable = document.createElement('div')
-  const table = document.createElement('table');
-  const thead = document.createElement('thead');
-  const thQuestions = document.createElement('th');
-  const thAnswers = document.createElement('th');
-  const thSolutions = document.createElement('th');
-  const tbody = document.createElement('tbody');
-  const tr = document.createElement('tr');
-  table.classList.add('hide');
+  const divTable = document.createElement("div");
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const thQuestions = document.createElement("th");
+  const thAnswers = document.createElement("th");
+  const thSolutions = document.createElement("th");
+  const tbody = document.createElement("tbody");
+  const tr = document.createElement("tr");
+  table.classList.add("hide");
 
-
-  thQuestions.textContent = 'Domande';
-  thAnswers.textContent = 'Risposte';
-  thSolutions.textContent = 'Soluzione';
-
+  thQuestions.textContent = "Domande";
+  thAnswers.textContent = "Risposte";
+  thSolutions.textContent = "Soluzione";
 
   divTable.appendChild(table);
-  divTable.classList.add('tableContainer');
+  divTable.classList.add("tableContainer");
   table.appendChild(thead);
   thead.appendChild(tr);
   tr.appendChild(thQuestions);
@@ -413,16 +404,14 @@ function isResult() {
   tbody.appendChild(tr);
 
   //FILTRO
-  voidAnswers = givenAnswers.filter(obj => obj.answer === "");
-  console.log(voidAnswers, "lista di domande saltate")
-  console.log("vuote (voidAnswers)", voidAnswers.length)
-
-
+  voidAnswers = givenAnswers.filter((obj) => obj.answer === "");
+  console.log(voidAnswers, "lista di domande saltate");
+  console.log("vuote (voidAnswers)", voidAnswers.length);
 
   //LEGENDA GRAFICO
   const article = document.createElement("article");
-  const legend = document.createElement('ul');
-  legend.classList.add('legend');
+  const legend = document.createElement("ul");
+  legend.classList.add("legend");
   article.appendChild(legend);
   const li1 = document.createElement("li");
   const li2 = document.createElement("li");
@@ -433,8 +422,8 @@ function isResult() {
   const p1 = document.createElement("p");
   const p2 = document.createElement("p");
   const p3 = document.createElement("p");
-  const containerResultButton = document.createElement('div')
-  containerResultButton.classList.add('buttonsResult')
+  const containerResultButton = document.createElement("div");
+  containerResultButton.classList.add("buttonsResult");
 
   p1.textContent = "Corrette";
   p2.textContent = "Errate";
@@ -442,7 +431,6 @@ function isResult() {
   div1.classList.add("colorGreen");
   div2.classList.add("colorRed");
   div3.classList.add("colorGray");
-
 
   legend.appendChild(li1);
   legend.appendChild(li2);
@@ -454,15 +442,16 @@ function isResult() {
   li3.appendChild(div3);
   li3.appendChild(p3);
 
-
   //STRUTTURA
   appcontainer.appendChild(divResult);
-  divResult.appendChild(titoloSection);     //titolo
-  divResult.appendChild(quizCompleted);     //promosso-bocciato
-  divResult.appendChild(divGraph);          //grafico
-  if (voidAnswers.length === TOTAL_QUESTIONS) { divResult.appendChild(easterEgg()[1]) };   //testo 
-  divResult.appendChild(article);           //legenda
-  divResult.appendChild(isPassedContainer); 
+  divResult.appendChild(titoloSection); //titolo
+  divResult.appendChild(quizCompleted); //promosso-bocciato
+  divResult.appendChild(divGraph); //grafico
+  if (voidAnswers.length === TOTAL_QUESTIONS) {
+    divResult.appendChild(easterEgg()[1]);
+  } //testo
+  divResult.appendChild(article); //legenda
+  divResult.appendChild(isPassedContainer);
   isPassedContainer.appendChild(pIsPassed);
   divResult.appendChild(containerResultButton);
   containerResultButton.appendChild(buttonRestart);
@@ -470,17 +459,22 @@ function isResult() {
   divResult.appendChild(divTable);
   divGraph.appendChild(percentage);
 
-  if (voidAnswers.length === TOTAL_QUESTIONS) { divGraph.appendChild(easterEgg()[0]) }; //foto
+  if (voidAnswers.length === TOTAL_QUESTIONS) {
+    divGraph.appendChild(easterEgg()[0]);
+  } //foto
 
   //PARSER TABELLA
-  givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
+  givenAnswers.forEach(function (obj, i) {
+    //obj = {question: domanda, answer: risposta}
     const row = document.createElement("tr");
 
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
     const td3 = document.createElement("td");
     let answer = obj.answer;
-    if (answer === "") { answer = "Nessuna risposta" };
+    if (answer === "") {
+      answer = "Nessuna risposta";
+    }
 
     td1.textContent = obj.question;
     td2.textContent = answer;
@@ -492,7 +486,6 @@ function isResult() {
 
     tbody.appendChild(row);
   });
-
 
   //GRAFICO
   divGraph.classList.add("graph");
@@ -509,19 +502,18 @@ function isResult() {
 )`;
 
   //CALLBACK >> checkResult
-  checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
+  checkResult(calculatePercentage(), pIsPassed, isPassedContainer); // isPassed indica promosso o bocciato in inglese
 
   //EVENT-LISTENER TABELLA
   buttonVisible.addEventListener("click", (e) => {
-    table.classList.toggle('hide');
+    table.classList.toggle("hide");
 
-    if (table.classList.contains('hide')) {
+    if (table.classList.contains("hide")) {
       buttonVisible.textContent = "Visualizza risposte";
     } else {
       buttonVisible.textContent = "Nascondi risposte";
     }
   });
-
 
   buttonRestart.addEventListener("click", () => {
     window.location.reload();
@@ -544,7 +536,6 @@ function render() {
 }
 render();
 
-
 //TIMER
 function timer() {
   timerId = setInterval(() => {
@@ -562,15 +553,13 @@ function timer() {
       });
     }
 
-
-
     //time-out ultima domanda
     if (a <= 0 && QUESTIONS.length === 0) {
-      givenAnswers.push({ question: currentQuestion.question, answer: "" })
+      givenAnswers.push({ question: currentQuestion.question, answer: "" });
       greenArray.push(currentQuestion.correct_answer);
       currentScreen = "results";
-      console.log(QUESTIONS.length)
-      console.log('sono nel primo if quindi non ci sono più domande') // non viene mostrato finchè il timer in result non scade
+      console.log(QUESTIONS.length);
+      console.log("sono nel primo if quindi non ci sono più domande"); // non viene mostrato finchè il timer in result non scade
       a = 0;
       render();
       return;
@@ -578,10 +567,10 @@ function timer() {
     //time-out normale
     else if (a === 0) {
       a = TIMER_DURATION;
-      console.log('time azzerato')
-      givenAnswers.push({ question: currentQuestion.question, answer: "" })
+      console.log("time azzerato");
+      givenAnswers.push({ question: currentQuestion.question, answer: "" });
       greenArray.push(currentQuestion.correct_answer);
-      console.log("else")
+      console.log("else");
       render();
     }
 
@@ -595,6 +584,6 @@ function easterEgg() {
   const p = document.createElement("p");
   eggBasket.classList.add("easterEgg");
   p.classList.add("easterEggP");
-  p.textContent = "Perché non hai risposto a nessuna domanda? :("
-  return [eggBasket, p]
-} 
+  p.textContent = "Perché non hai risposto a nessuna domanda? :(";
+  return [eggBasket, p];
+}

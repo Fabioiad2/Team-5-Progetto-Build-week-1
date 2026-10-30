@@ -122,11 +122,11 @@ function isWelcome() {
   let paragraph = document.createElement("p");
   let startButton = document.createElement("button");
 
-  // DIAMO CONTENUTO
+  //CONTENUTO
   title.textContent = "Benvenuto al tuo esame!";
   paragraph.classList.add("intro");
 
-  // DIAMO ATTRIBUTI
+  //ATTRIBUTI
   divWelcome.classList.add("welcome");
   title.classList.add("title");
   paragraph.innerHTML = `Questa sfida è pensata per valutare la tua preparazione nel vasto mondo dell'informatica, dello sviluppo web e delle nuove tecnologie. La prova consiste in 10 domande dinamiche: per rispondere a ciascuna domanda avrai esattamente <span> 20 secondi,</span> quindi mantieni alta la concentrazione! Ricorda che ogni scelta è definitiva e il tempo scorre velocemente. L'esperienza complessiva richiederà solo 3 minuti del tuo tempo. Metti alla prova quello che hai imparato, dimostra il tuo valore e scopri subito il tuo punteggio finale. Troverai dei tasti che ti permottono di saltare la domanda o di ricominciare il quiz. Prendi un respiro profondo e fai clic su Inizia quando sei pronto!`;
@@ -134,7 +134,7 @@ function isWelcome() {
   startButton.classList.add("start");
   startButton.textContent = "Inizia";
 
-  //EVENT-LISTENER
+  //EVENT-LISTENER 
   startButton.addEventListener("click", () => {
     console.log(currentScreen, "stato prima");
     currentScreen = "quiz";
@@ -157,11 +157,11 @@ function randomLength(a) {
 
 //FUNCTION isQUIZ
 function isQuiz(param = QUESTIONS) {
-  appcontainer.textContent = "";
+  appcontainer.textContent = ""; 
 
   //COUNTER
   counterNum++;
-  let container = document.createElement("div");
+  let container = document.createElement("div"); 
   let counterDiv = document.createElement("div");
   counterDiv.id = "counter"; // id per CSS <<-------------------------
   container.classList = "container";
@@ -189,11 +189,20 @@ function isQuiz(param = QUESTIONS) {
   btnRestartQuiz.textContent = "Ricomincia";
   btnRestartQuiz.classList.add("restartQ");
   const buttonQ = document.createElement('div');
+
+  
+  // Creiamo un div per la barra a pallini 
   let divDot = document.createElement("div");
   divDot.classList.add('divDot');
-  let dotArray = [];
+  let dotArray = []; //array vuoto dei punti
 
-  //PROGRESS DOT
+
+  //Array contenente solo gli indici delle domande a cui è stata data una risposta
+  const purpleIndexes = givenAnswers
+    .map((obj, index) => (obj.answer === "" ? -1 : index)) //controlla ogni risposta: se è vuota restituisce -1, altrimenti restituisce il suo indice, Es. [0, -1, 2, 3, -1]
+    .filter(index => index !== -1); // elimina tutti i -1, mantenendo solo gli indici delle risposte date, Es. [0, 2, 3]
+
+// Genera un dot per ogni domanda presente nell'array copyQuestions
   copyQuestions.forEach(() => {
     let dot = document.createElement("div");
     dot.classList.add('dot');
@@ -201,10 +210,6 @@ function isQuiz(param = QUESTIONS) {
     dotArray.push(dot);
   });
 
-   //Array di indici risposte vuote
-  const purpleIndexes = givenAnswers
-    .map((obj, index) => (obj.answer === "" ? -1 : index)) //ritorna l'indice di ogni obj.answer:string e ritorna come -1 quelle vuoti Es[0, -1, 2, 3, -1]
-    .filter(index => index !== -1); //ritorna l'array senza i -1
 
   dotArray.forEach((dot, i) => {
     if (purpleIndexes.includes(i)) {
@@ -224,19 +229,18 @@ function isQuiz(param = QUESTIONS) {
   appcontainer.appendChild(h2);
   appcontainer.appendChild(divQ);
   divQ.appendChild(ul);
-  // divQ.appendChild(divDot);
 
-  //LOGICA
+  //LOGICA 
   let i = randomLength(param);
-  const [q] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
+  [currentQuestion] = param.splice(i, 1); //salvo l'oggetto selezionato  sotto una const e lo rimuovo dall'array
   const {
     question: question,
     correct_answer: correct_answer,
     incorrect_answers: z,
-  } = q; //destrutturo l'oggetto per richiamare le variabili
+  } = currentQuestion; //destrutturo l'oggetto per richiamare le variabili
 
   let allAnswers = [correct_answer, ...z];
-  currentQuestion = q;
+ 
   h2.textContent = question;
 
   //OPZIONI CLICCABILI
@@ -315,7 +319,7 @@ function isQuiz(param = QUESTIONS) {
   });
 
 
-  //RICOMINCIA QUANDO VUOI
+  //RICOMINCIA QUANDO VUOI IN QUIZ
   btnRestartQuiz.classList.add("restartFromQuiz")
   buttonQ.appendChild(btnRestartQuiz);
   btnRestartQuiz.addEventListener("click", () => {
@@ -334,7 +338,7 @@ function calculatePercentage() {
     (obj, i) => obj.answer === greenArray[i]
   ).length;
 
-  return Math.round((corrects / givenAnswers.length) * 100);
+  return Math.round((corrects / givenAnswers.length) * 100); // arrotonda la percentuale
 }
 
 //CHECK-RESULT
@@ -349,7 +353,7 @@ function checkResult(percentuale, testo, contenitore) {
 //FUNCTION isRESULT
 function isResult() {
   appcontainer.textContent = "";
-  //KILL TIMER
+  //AZZERA IL TIMER
   clearInterval(timerId);
 
   //ELEMENTI
@@ -415,7 +419,7 @@ function isResult() {
 
 
 
-  //LEGENDA
+  //LEGENDA GRAFICO
   const article = document.createElement("article");
   const legend = document.createElement('ul');
   legend.classList.add('legend');
@@ -451,18 +455,14 @@ function isResult() {
   li3.appendChild(p3);
 
 
-
-
-
-
   //STRUTTURA
   appcontainer.appendChild(divResult);
   divResult.appendChild(titoloSection);     //titolo
   divResult.appendChild(quizCompleted);     //promosso-bocciato
   divResult.appendChild(divGraph);          //grafico
-  if (voidAnswers.length === TOTAL_QUESTIONS) { divResult.appendChild(easterEgg()[1]) };   //testo EE
+  if (voidAnswers.length === TOTAL_QUESTIONS) { divResult.appendChild(easterEgg()[1]) };   //testo 
   divResult.appendChild(article);           //legenda
-  divResult.appendChild(isPassedContainer); //
+  divResult.appendChild(isPassedContainer); 
   isPassedContainer.appendChild(pIsPassed);
   divResult.appendChild(containerResultButton);
   containerResultButton.appendChild(buttonRestart);
@@ -470,7 +470,7 @@ function isResult() {
   divResult.appendChild(divTable);
   divGraph.appendChild(percentage);
 
-  if (voidAnswers.length === TOTAL_QUESTIONS) { divGraph.appendChild(easterEgg()[0]) };
+  if (voidAnswers.length === TOTAL_QUESTIONS) { divGraph.appendChild(easterEgg()[0]) }; //foto
 
   //PARSER TABELLA
   givenAnswers.forEach(function (obj, i) { //obj = {question: domanda, answer: risposta}
@@ -511,8 +511,7 @@ function isResult() {
   //CALLBACK >> checkResult
   checkResult(calculatePercentage(), pIsPassed, isPassedContainer);// isPassed indica promosso o bocciato in inglese
 
-  //EVENT-LISTENER
-
+  //EVENT-LISTENER TABELLA
   buttonVisible.addEventListener("click", (e) => {
     table.classList.toggle('hide');
 
@@ -556,7 +555,7 @@ function timer() {
     if (a === 1) {
       greenLight.classList.add("correct"); //greenLight salva la risposta giusta (optionButton contenente la risposta corretta) ad ogni render di domanda
 
-      const buttons = document.querySelectorAll('.optionButton');
+      const buttons = document.querySelectorAll("div.questionnaire button");
 
       buttons.forEach((button) => {
         button.disabled = true;

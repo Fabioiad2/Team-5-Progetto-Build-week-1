@@ -7,9 +7,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background:
-    /*#1b1535*/
-    url("/assets/img/bg.jpg") center / cover no-repeat fixed;
+  background:  url("/assets/img/bg.jpg") center / cover no-repeat fixed;
   color: #1b2845;
   min-height: 100vh;
   display: flex;
@@ -18,6 +16,8 @@ body {
   padding: 24px;
   box-shadow: 10px 10px 24px rgba(0, 0, 0, 0.5);
 }
+
+/*Header*/
 
 .brand {
   width: 100%;
@@ -30,16 +30,47 @@ body {
   height: 36px;
 }
 
+/*Card*/
+
 #app {
   background: whitesmoke;
   border-radius: 16px;
   padding: 40px;
   max-width: 720px;
   width: 100%;
-  min-height: 350px;
-  /*dimensione della card minima da mostrare*/
+  min-height: 350px; /*dimensione della card minima da mostrare*/
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
+
+/*bottoni*/
+
+.restartQ,
+.restart,
+.displayQ,
+.skip {
+  border: 2px solid #3B1455;
+  border-radius: 12px;
+  color: #3B1455;
+  background-color: whitesmoke;
+  padding: 7px 15px;
+  font-weight: bold;
+  width: 180px;
+  margin: 10px;
+}
+
+/*Effetto grafico sui bottoni quando ci passi sopra*/
+
+.start:hover,
+.restart:hover,
+.restartQ:hover,
+.skip:hover,
+.optionButton:hover,
+.displayQ:hover {
+  background-color: rgba(235, 209, 238, 0.8);
+  cursor: pointer;
+}
+
+/* Welcome Render */
 
 #app .welcome {
   margin-top: 15px;
@@ -50,8 +81,6 @@ body {
   line-height: 24px;
   text-align: justify;
 }
-
-/* Welcome Render */
 
 .welcome .title {
   text-align: center;
@@ -78,7 +107,7 @@ body {
   font-weight: bold;
   width: 180px;
 
-  /* Proprietà per centrare il bottone */
+/* Proprietà per centrare il bottone */
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -87,6 +116,7 @@ body {
 
 /* Quiz Render */
 
+/*Div contenitore di #counter "contatore di domande"*/
 .counters {
   display: flex;
   justify-content: space-between;
@@ -101,6 +131,8 @@ body {
   float: left;
   margin-top: 6px;
 }
+
+/*Div del timer*/
 
 #timer {
   color: #3B1455;
@@ -121,11 +153,15 @@ body {
   color: whitesmoke;
 }
 
+/*Domanda del quiz*/
+
 .question {
   font-weight: bold;
   margin-top: 55px;
   margin-bottom: 20px;
 }
+
+/*Div .questionnaire contenente le risposte .answer , i bottoni .skip .restartQ e il divDot (pallini progressivi) */
 
 .answer {
   list-style: none;
@@ -180,6 +216,8 @@ li .wrong:hover {
   margin-top: 50px;
 }
 
+/*Pallini progressivi*/
+
 .divDot {
   width: 60%;
   display: block;
@@ -187,7 +225,7 @@ li .wrong:hover {
   text-align: center;
 }
 
-.dot {
+.dot { /*pallino*/
   height: 15px;
   width: 15px;
   background-color: whitesmoke;
@@ -225,19 +263,21 @@ li .wrong:hover {
   padding: 7px;
 }
 
-#isPassedContainer {
+/*Div che contiene la scritta Promosso/Bocciato*/
+
+#isPassedContainer { /*Div*/
   margin-top: 20px;
   display: inline-block;
 }
 
 .passed {
-  background-color: #2d6a4f;
+  background-color: #4caf50;
   color: whitesmoke;
   margin-top: 3px;
 }
 
 .failed {
-  background-color: #e63946;
+  background-color: #f44336;
   color: whitesmoke;
   margin-top: 3px;
 }
@@ -252,9 +292,9 @@ li .wrong:hover {
   margin-left: auto;
   margin-right: auto;
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
   text-align: center;
-
 }
 
 .passed p::after {
@@ -268,58 +308,48 @@ li .wrong:hover {
   display: inline-block;
 }
 
-.start:hover,
-.restart:hover,
-.restartQ:hover,
-.skip:hover,
-.optionButton:hover,
-.displayQ:hover {
-  background-color: rgba(235, 209, 238, 0.8);
-  cursor: pointer;
-}
+/*Grafico a ciambella con tre colori*/
 
 .graph {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  background: conic-gradient();
+  background: conic-gradient(); /*I colori e le percentuali sono date a riga 501-505 di JavaScript*/
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  position: relative;
-  margin-top: 15px;
-  /* Fondamentale per posizionare gli elementi interni */
+  position: relative; /* Fondamentale per posizionare gli elementi interni */
+  margin-top: 15px; 
 }
 
 /* Il buco della ciambella */
+
 .graph::before {
-  content: "";
-  position: absolute;
-  /* Lo stacca dal flusso flex, mettendolo al centro esatto */
-  width: 100px;
+  content: ""; /*Aggiungiamo uno spazietto prima del div. Dato che il div è un cerchio si posiziona al suo centro. */
+  position: absolute; /* Lo stacca dal flusso flex, mettendolo al centro esatto */
+  width: 100px; /*La differenza tra le dimensioni del grafico e del buco definisce la dimensione del grafrico a schermo. In questo caso è 50px*/
   height: 100px;
-  background-color: whitesmoke;
-  /* Colore di sfondo del buco */
+  background-color: whitesmoke; /* Colore di sfondo del buco */
   border-radius: 50%;
-  z-index: 1;
-  /* Sta sopra al gradiente ma sotto al testo */
+  z-index: 1; /* Lo posiziona sopra al gradiente ma sotto al testo */
 }
 
 /* La percentuale */
+
 .graph>span {
-  position: relative;
-  /* Lo porta sopra al ::before */
-  z-index: 2;
-  /* Deve essere più alto del ::before per essere visibile */
+  position: relative; /* Lo porta sopra al buco */
+  z-index: 2; /* Deve essere più alto del buco per essere visibile */
   font-size: xx-large;
   font-weight: bold;
   text-align: center;
 }
 
+/*Easter egg - spunta un risultato simpatico quando l'utente non risponde a nessuna domanda*/
+
 .graph>.easterEgg {
-  background: url("/assets/img/gatto1.jpg");
-  width: 150px;
+  background: url("/assets/img/gatto1.jpg"); /*foto gattino*/
+  width: 150px; /*Stessa dimensione del grafico così da coprirlo*/
   height: 150px;
   position: absolute;
   border-radius: 50%;
@@ -333,7 +363,8 @@ li .wrong:hover {
 }
 
 /* Centra la lista e rimuove i pallini di default */
-.legend {
+
+.legend { /*ul*/
   text-align: center;
   list-style: none;
   padding: 0;
@@ -345,20 +376,21 @@ li .wrong:hover {
   margin-right: 15px;
 }
 
-.legend li div {
+.legend li div { /*I pallini sono div*/
   display: inline-block;
   width: 10px;
   height: 10px;
   margin-right: 6px;
-  vertical-align: middle;
-  /* Allinea verticalmente il pallino rispetto al testo */
+  vertical-align: middle; /* Allinea verticalmente il pallino rispetto al testo */
 }
 
-.legend li p {
+.legend li p { /*Scritti vicino ai div*/
   display: inline-block;
   margin: 0;
   vertical-align: middle;
 }
+
+/*Colori di pallini*/
 
 .colorRed {
   height: 10px;
@@ -385,25 +417,15 @@ li .wrong:hover {
   border-radius: 50%;
 }
 
+/*Div bottoni in result*/
+
 .buttonsResult {
   width: 500px;
   margin: 0 auto;
   display: inline-block;
 }
 
-.restartQ,
-.restart,
-.displayQ,
-.skip {
-  border: 2px solid #3B1455;
-  border-radius: 12px;
-  color: #3B1455;
-  background-color: whitesmoke;
-  padding: 7px 15px;
-  font-weight: bold;
-  width: 180px;
-  margin: 10px;
-}
+/*Tabella risultati*/
 
 .tableContainer table {
   margin-top: 20px;
@@ -424,6 +446,6 @@ li .wrong:hover {
   border-top: 2px solid #3B1455;
 }
 
-.tableContainer table.hide {
+.tableContainer table.hide { /*nasconde la tabella e la mostra se si clicca il bottone*/
   display: none;
 }

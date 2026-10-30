@@ -33,9 +33,10 @@ L'applicazione ha un'interfaccia moderna e reattiva con uno stile visivo curato 
 **Funzionalità principali:**
 
 - **Timer** mostra a schermo il tempo residuo per poter rispondere alla domanda.
-- **Contatore** mostra progressivamente il numero della domande totali e della domanda visualizzata a schermo.
+- **Contatore** mostra progressivamente il numero delle domande totali e della domanda visualizzata a schermo.
 - **Domande in ordine casuale** seleziona una domanda da visualizzare a schermo dall'array in maniera casuale.
 - **Risposte in ordine casuale** mostra le risposte disponibili in ordine casuale. 
+- **Pallini progressivi dinamici** viene visualizzata a schermo una sequenza di pallini dinamici che si aggiorna in base alle risposte date o saltate.
 - **Responso risposta** dopo la selezione della risposta viene visualizzato immediatamente un responso sulla correttezza o meno della suddetta.
 - **Visualizzazione esito** mostra a schermo l'esito in forma percentuale, scritta e grafica.
 - **Renderizzazione tabella risposte** mostra a schermo domande con relativa risposta selezionata dall'utente con a fianco la risposta corretta.
@@ -71,23 +72,23 @@ L'applicazione ha un'interfaccia moderna e reattiva con uno stile visivo curato 
 
 ```text
 .
-├── index.html                pagina unica con il contenitore #app
+├── index.html                 pagina unica con il contenitore #app
 ├── README.md
 └── assets/
     ├── css/
-    │   └── style.css         stile
+    │    └── style.css         stile
     ├── img/
-        ├── bg.jpg            sfondo
-        ├── epicode-logo.png  logo epicode
-        ├── epicode-logo1.png logo epicode piccolo
-        ├── gatti1.jpg        foto gatto simpatico
-        ├── quiz.png          screenshot del quiz
-        ├── resul1.png        screenshot dei risultati
-        ├── resul2.png        screenshot della lista
-        ├── resul3.png        screenshot del risultato simpatico
-        └── welcome.png       screenshot della pagina di benvenuto
+    │    ├── bg.jpg            sfondo
+    │    ├── epicode-logo.png  logo epicode
+    │    ├── epicode-logo1.png logo epicode piccolo
+    │    ├── gatti1.jpg        foto gatto simpatico
+    │    ├── quiz.png          screenshot del quiz
+    │    ├── result1.png        screenshot dei risultati
+    │    ├── result2.png        screenshot della lista
+    │    ├── result3.png        screenshot del risultato simpatico
+    │    └── welcome.png       screenshot della pagina di benvenuto
     └── js/
-         └── script.js        pagina che contiene tutte le funzionalità
+         └── script.js         pagina che contiene tutte le funzionalità
 
 ```
 
@@ -97,19 +98,19 @@ L'applicazione ha un'interfaccia moderna e reattiva con uno stile visivo curato 
 
 L'app segue il pattern **stato → render → eventi**:
 
-1. **Stato**: La variabile "currentScreen" gestiste lo stato dell'applicazione.
-2. **Render**: La funzione Render utilizza la condizione switch per renderizzare a seconda dello stato. Lo stato può assumere tre valori: "welcome", "quiz" e "results".
+1. **Stato**: La variabile "currentScreen" gestisce lo stato dell'applicazione.
+2. **Render**: La funzione "render" utilizza la condizione switch per renderizzare a seconda dello stato. Lo stato può assumere tre valori: "welcome", "quiz" e "results".
 3. **Eventi**:
-- All'inizializzazione currentScreen è dichiarata come "welcome".
+- All'inizializzazione "currentScreen" è dichiarata come "welcome".
 - Il bottone "start" cambia lo stato, avvia la funzione "timer" e chiama la funzione "render".
 - Nello stato "isQuiz" viene renderizzata la domanda che presenta le risposte disponibili cliccabili, un bottone "skip" che permette di saltare la domanda e un bottone "restart" che fa ricominciare il quiz. Nel momento in cui una risposta viene cliccata:
-- Disabilità tutte le opzioni in modo che l'utente non possa selezionare più di un opzione alla volta;
+- Disabilità tutte le opzioni e i bottoni in modo che l'utente non possa selezionare più di un opzione alla volta;
 - Evidenzia l'opzione di verde o rosso a seconda del risultato, se la risposta è sbagliata evidenzia anche quella corretta;
 - Salva in un array "givenAnswers" come oggetto la coppia domanda risposta selezionata dall'utente;
 - Salva anche le risposte corrette in un secondo array "greenArray";
-- Ritarda il "render" successivo di due secondi tramite la funzione setTimeout per permettere all'utente di visualizzare gli effetti grafici di esito della domanda;
-- Completando il quiz viene aggiornato lo stato a "results" e chiamato il render.
-- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella ed a schermo è presente il bottone "Visualizza" che permette di visualizzare la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina.
+- Ritarda il "render" successivo di due secondi tramite la funzione "setTimeout" per permettere all'utente di visualizzare gli effetti grafici di esito della domanda;
+- Completando il quiz viene aggiornato lo stato a "results" e chiamato il "render".
+- Nello stato "isResult" vieve renderizzato il risultato del quiz, così presentato: percentuale, scritta "Promosso" o "Bocciato",  grafico a ciambella ed il bottone "Visualizza" che permette di visualizzare la tabella contenente tutte le domande del quiz con le relative risposte corrette e quelle selezionate dall'utente. Qui è inoltre presente un tasto "restart" che ricarica la pagina. Se non si risponde a nessuna domanda viene mandato a schermo un "easterEgg", ovvero appare al posto del grafico un simpatico gatto con la domanda "Perchè non hai risposto a nessuna domanda?".
 
 ---
 
@@ -142,7 +143,7 @@ L'app segue il pattern **stato → render → eventi**:
     </ul>
     <div class= "buttonQ">
       <button class="skip">Salta</button>
-      <button class="restartQ">Salta</button> 
+      <button class="restartQ">Ricomincia</button>
     </div>
     <div class= "divDot"> 
       <div class= "purple"> </div>
@@ -196,7 +197,7 @@ L'app segue il pattern **stato → render → eventi**:
 
 ## Come funziona
 
-Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una proprietà domanda "question", una proprietà "correct-answer" contenente la risposta corretta e un array "incorrect_answers" contenente le risposte errate:
+Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una proprietà domanda "question", una proprietà "correct_answer" contenente la risposta corretta e un array "incorrect_answers" contenente le risposte errate:
 
 ```js
 {
@@ -213,53 +214,62 @@ Le domande sono oggetti in un array chiamato "QUESTIONS". Ogni oggetto ha una pr
 
 ### 2. Sessione di Quiz Interattiva
 - **10 domande** casuali su argomenti di Informatica, Programmazione e Cultura Tech.
+- **Contatore** che mostra la domanda corrente e le domande totali del quiz.
 - **Timer a tempo residuo (20 secondi per domanda)** integrato in alto a destra.
 - Domande casuali a risposta multipla e *Vero/Falso*.
 - Feedback visivo immediato alla sezione della risposta:
   - **Verde**: Risposta corretta.
   - **Rosso**: Risposta errata.
+- Pulsante **"Salta"** per saltare la domanda.
+- Pulsante **"Ricomincia"** per resettare lo stato e riprovare il test.  
+- **Pallini progressivi dinamici** mostrano un responso chiaro all'utente su quali domande hanno ricevuto una risposta o meno.
 
 #### Timer 
 
-La funzione timer gestisce una serie di funzionalità:
+La funzione "timer" gestisce una serie di funzionalità:
 - mostra a schermo il tempo rimanente per rispondere alla domanda. Il tempo residuo viene mostrato in maniera decrescente da 20 a 1.
 - gestione di una classe interna che ne definisce lo stile. Quando all'utente mancano 5 secondi per rispondere il timer assume il colore rosso.
-- quando manca 1 secondo di tempo la funzione disabilita le opzioni cliccabili e gestisce una classe che fa assumere il colore verde alla risposta. Inoltre la funziona inserisce la risposta vuola, tramite il metodo push, nell'array givenAnswers e fa procedere il quiz alla domanda successiva.
+- quando manca 1 secondo di tempo la funzione disabilita le opzioni cliccabili/bottoni e gestisce una classe che fa assumere il colore verde alla risposta. Inoltre la funziona inserisce la risposta vuota, tramite il metodo "push", nell'array "givenAnswers" e fa procedere il quiz alla domanda successiva.
 
 #### Contatore
 
-La funzione counter aggiorna il numeratore counterNum a ogni click sulle risposte e mostra schermo la domanda corrente e il numero di domande totali. Raggiunta l'ultima domanda cambia lo stato in "results".
+La funzione "counter" aggiorna il numeratore "counterNum" a ogni click sulle risposte e mostra schermo la domanda corrente e il numero di domande totali. Raggiunta l'ultima domanda cambia lo stato in "results".
 
 #### Domande in ordine casuale
 
-Dentro la funzione isQuiz un callBack a randomLength seleziona un indice casuale tramite la funzione randomLength che utilizza i metodi mathFloor e mathRandom, mostrarla a schermo. Rimuove e ritorna l'elemento con il metodo splice per non ripetere la domanda.
+Dentro la funzione "isQuiz" un callBack a "randomLength" seleziona un indice casuale tramite la funzione "randomLength" che utilizza i metodi "Math.floor" e "Math.random", mostrarla a schermo. Rimuove e ritorna l'elemento con il metodo "splice" per non ripetere la domanda.
 
 #### Risposte in ordine casuale
 
-Un loop all'interno di isQuiz raggrupa le risposte in un array e poi itera in maniera casuale tramite la funziona sopra citata randomLength. Tramite il metodo splice rimuove la risposta selezionata e la inserisce nella lista visualizzata a schermo in modo da avere solo le iterazioni necessarie e sempre diverse.
+Un loop all'interno di "isQuiz" raggrupa le risposte in un array e poi itera in maniera casuale tramite la funziona sopra citata "randomLength". Tramite il metodo "splice" rimuove la risposta selezionata e la inserisce nella lista visualizzata a schermo in modo da avere solo le iterazioni necessarie e sempre diverse.
+
+#### Pallini progressivi dinamici
+
+Dentro la funzione "isQuiz" un metodo crea i pallini a schermo. Dopo di che un filtro seleziona gli indici delle risposte date e li colora. Dando così un responso chiaro all'utente su quali domande hanno ricevuto una risposta o meno.
 
 #### Responso risposta
 
-Una condizione dentro la funzione isQuiz che si attiva al click in un opzione di risposta controlla se la risposta è corretta e da una classe specifica a seconda del risultato. Se la risposta è errata viene evidenziata anche la risposta corretta.
+Una condizione dentro la funzione "isQuiz" che si attiva al click in un opzione di risposta controlla se la risposta è corretta e da una classe specifica a seconda del risultato. Se la risposta è errata viene evidenziata anche la risposta corretta.
 
 ### 3. Schermata dei Risultati
 - Calcolo automatico del punteggio percentuale.
 - Indicatore dell'esito dell'esame.
-- Grafico a torta per il conteggio dettagliato delle risposte corrette, errate e nulla.
+- Grafico a ciambella per il conteggio dettagliato delle risposte corrette, errate e nulla.
+- Leggenda che indica chiaramente cosa rappresentano i colori del grafico.
 - Pulsante **"Ricomincia"** per resettare lo stato e riprovare il test.
 - Pulsante **"Visualizza risposte"** che mostra a schermo il riepilogo delle domande e delle risposte selezionate nel corso del quiz.
 
 #### Visualizzazione esito
 
-Questà funzionalità viene gestita da più funzioni all'interno della funzione isResult:
-La funzione calculatePercentage confronte le risposte nell'array givenAnswers, conservate sotto la proprietà answers, con quelle conservare nell'array di risposte corrette greenArray per fornire la percentuale di corrispondenza arrotondata all'intero più vicino. 
-Questa viene a sua volta confrontata con la costante PASS_THRESHOLD fornita dal cliente. Se la percentuale è maggiore del valore di PASS_THRESHOLD viene visualizzato il responso positivo con la scritta "Promosso", altrimenti "Bocciato".
+Questa funzionalità viene gestita da più funzioni all'interno della funzione "isResult":
+La funzione "calculatePercentage" confronta le risposte nell'array "givenAnswers", conservate sotto la proprietà "answers", con quelle conservate nell'array di risposte corrette "greenArray" per fornire la percentuale di corrispondenza arrotondata all'intero più vicino. 
+Questa viene a sua volta confrontata con la costante "PASS_THRESHOLD" fornita dal cliente. Se la percentuale è maggiore del valore di "PASS_THRESHOLD" viene visualizzato il responso positivo con la scritta "Promosso", altrimenti "Bocciato".
 
 #### Renderizzazione tabella risposte
 
-All'interno isResult viene generato lo scheletro della tabella con testo statico nel thead. Tramite il metodo forEach, riempiano le sezioni della tabella in maniera dinamica in modo da visualizzare a schermo una riga per domanda con tre colonne corrispondenti a domanda, risposta dell'utente e risposta corretta.
+All'interno "isResult" viene generato lo scheletro della tabella con testo statico nel "thead". Tramite il metodo "forEach", riempiano le sezioni della tabella in maniera dinamica in modo da visualizzare a schermo una riga per domanda con tre colonne corrispondenti a domanda, risposta dell'utente e risposta corretta.
 
-Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava le proprietà sotto le chiavi "question" e "answer" per riempirne due, mentre il terzo td viene riempito grazie all'elemento in greenArray presente nello stesso indice. La tabella è resa visibile al click del bottone sopracitato.
+Il metodo "forEach" itera l'array di oggetti "givenAnswers", genera tre "td", e ricava le proprietà sotto le chiavi "question" e "answer" per riempirne due, mentre il terzo "td" viene riempito grazie all'elemento in "greenArray" presente nello stesso indice. La tabella è resa visibile al click del bottone sopracitato.
 
 
 ### 4. Regole del Quiz
@@ -269,12 +279,13 @@ Il metodo forEach itera l'array di oggetti givenAswers, genera tre td, e ricava 
 3. È possibile selezionare **una sola risposta** per ciascun quesito.
 4. Una volta cliccata l'opzione o scaduto il tempo, la risposta viene confermata e si passa alla domanda successiva.
 5. Il tempo stimato per completare il quiz è di circa 3 minuti.
+6. È possibile ricominciare il quiz tramite l'apposito tasto in qualsiasi momento.
 
 ### Aspetto grafico
 
 L'applicazione si presenta con un'interfaccia moderna con sfondo scuro sfumato in viola e il logo **EPICODE** in alto. Al centro si trova un riquadro bianco fumo con angoli arrotondati che mostra il messaggio di benvenuto, le regole dell'esame e il pulsante **"Inizia"** per avviare il quiz. Tutti i pulsanti hanno un effetto hover. Quando ci passi sopra si colora di viola chiaro e il cursore diventa un puntatore.
-Una volta avviato il quiz la schermata mantiene lo stesso stile grafico. All'interno del riquadro mostra la domanda corrente, un timer rettangolare con i secondi rimanenti che si colora di rosso quando il tempo sta per scadere per mettere premura all'utente, dei pulsanti per le opzioni per le risposte disposte in verticale e dei pallini che si colorano ad uno ad uno dopo aver risposto a una domanda. Le risposte corrette vengono visualizzate di colore rosso e quelle giusta di colore verde in maniera intuitiva.
-Quando il quiz finisce la schermata mostra a schermo l'esito. Un grafico a ciambella mostra quante domande selezionate sono corrette, errate e/o nulle. Il grafico è accompagnato da una breve leggenda che ne rende il contenuto più chiaro. L'esito è rafforzato da un numero percentuale delle risposte corrette e la scritta "Promosso/Bocciato" con una simpatica faccina a fianco. Premendo sui bottoni sottostanti è possibile vedere riavviare il quiz e mostrare a schermo una tabella con al suo interno le domande con le risposte selezionate dall'utente e le risposte corrette.
+Una volta avviato il quiz la schermata mantiene lo stesso stile grafico. All'interno del riquadro mostra la domanda corrente, un timer rettangolare con i secondi rimanenti che si colora di rosso quando il tempo sta per scadere per mettere premura all'utente, dei pulsanti per le opzioni per le risposte disposte in verticale e dei pallini che si colorano ad uno ad uno dopo aver risposto a una domanda. Le risposte corrette vengono visualizzate di colore rosso e quelle giuste di colore verde in maniera intuitiva. Qui troviamo i due bottoni **"Salta"** e **"Ricomincia"** stilizzati in maniera uniforme a tutti gli altri bottoni del sito. Al di sotto di essi troviamo una sequenza di dieci pallini dello stesso bianco fumo della card con un leggero bordo scuro e una leggera ombra. Ogni volta che viene selezionata una risposta un pallino di colore di un viola simile all'immagine di sfondo.
+Quando il quiz finisce la schermata mostra a schermo l'esito. Un grafico a ciambella mostra quante domande selezionate sono corrette, errate e/o nulle. Il grafico è accompagnato da una breve leggenda che ne rende il contenuto più chiaro. L'esito è rafforzato da un numero percentuale delle risposte corrette e la scritta "Promosso/Bocciato" con una simpatica faccina a fianco. Premendo sui bottoni sottostanti è possibile vedere riavviare il quiz e mostrare a schermo una tabella con al suo interno le domande con le risposte selezionate dall'utente e le risposte corrette. Nel caso in cui l'utente non selezionasse nessuna risposta durante il quiz un simpatico gatto si sovrappone letteralmente al grafico e chiede all'utente come mai non ha risposto alle domande.
 
 
 ### Convenzioni di codice
@@ -282,9 +293,9 @@ Quando il quiz finisce la schermata mostra a schermo l'esito. Un grafico a ciamb
 - **camelCase** per tutte le variabili e **maiuscolo** per le costanti.
 - **Variabili, funzioni, costanti e chiavi degli oggetti in inglese**, con nomi intuitivi.
 - **Commenti che favoriscono la comprensione del codice**.
-- Solo `const` e `let`, mai `var`.
-- `querySelector` / `querySelectorAll` per il DOM.
-- `addEventListener`, mai `onclick` inline nell'HTML.
+- Solo "const" e "let", mai "var".
+- "querySelector" / "querySelectorAll" per il DOM.
+- "addEventListener", mai "onclick" inline nell'HTML.
 
 ### Il team 5 e il flusso di lavoro
 
